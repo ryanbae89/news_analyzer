@@ -1,4 +1,20 @@
-### Component Design For KNN Search Algorithm
+# Component Design for News NLP
+
+### UI
+
+### Preprocessing (Article Corpus version)
+
+### Preprocessing (Query version)
+
+### Build Sentiment Model
+
+### Guided LDA
+
+### Sentiment Predictor
+
+### Topic Predictor
+
+### KNN Search Algorithm
 
 This component have 3 functions: `Collect User Input` retrieve random article or keywords from the interface and feeds it into Topic Scoring and Sentiment Analysis system. `KNN Search` models input article with original article database and output recommended articles based on distance in topic and sentiment. `Output to Interface` sends the recommended articles back to the user interface.
 
@@ -28,3 +44,8 @@ This component have 3 functions: `Collect User Input` retrieve random article or
 
 	* User Interface for random article or keyword input
 	* User Interface for recommended articles output
+
+
+### Join Process
+
+### Visualization
