@@ -49,3 +49,6 @@ This component have 3 functions: `Collect User Input` retrieve random article or
 ### Join Process
 
 ### Visualization
+
+
+\includepdf{news-nlp-flowchart.pdf}
