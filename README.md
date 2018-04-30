@@ -1,3 +1,9 @@
-# news-articles-nlp - ceduze made conflict. not coo
+# News Article NLP Analyzer
 
-I HAVE THE POWERS
+Team members  
+ * Ryan Bae   
+ * Crystal Ding  
+ * Charles Duze  
+ * Mohammed Helal  
+ * Paul Wright   
+ 
