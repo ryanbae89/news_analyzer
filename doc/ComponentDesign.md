@@ -1,5 +1,7 @@
 # Component Design for News NLP
 
+![ComponentDesignFlowChart]("news-nlp-flowchart-2.png")
+
 ### UI
 
 ### Preprocessing (Article Corpus version)
