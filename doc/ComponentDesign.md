@@ -10,9 +10,51 @@
 
 ### Guided LDA
 
+The Guided LDA is the component that creates the topic model from the articles corpus. It is a variant of the popular Latent Dirichlet Allocation model used to model topics in a corpus of text. The guided portion of the LDA allows semi-supervised learning on a normally unsupervised LDA algorithm by allowing seed words to guide the topic modeling. It was chosen due to the improvement in interpretability of the resulting topics over regular LDA.
+
+**Dimensions**:
+
+* n = number of unique articles in corpus
+* d = numer of unique relevant words in corpus
+* k = number of desired topics in corpus
+
+**Inputs**:
+
+* `articles`: A bag-of-words representation of articles. Each row represents an article in the corpus, while each column represents a unique word in the corpus after stopping and stemming. dim = (n, d)
+
+**Outputs**:
+
+* `doc_topic`: Matrix relating documents (articles) with topics. dim = (n, k)
+
+* `topic_model`: Matrix relating topics to words. dim = (k, d)
+
+**Hyperparameters**:
+
+* `n_topics`: Number of desired topics
+
+* `n_iter`: Total number of iterations 
+
+* `seed_topics`: List of lists containing desired words in each topic
+
+* `seed_confidence`: Confidence of the seeded topics
+
+**Relation with other components**:
+
+`topic_model` and `doc_topic` are the topic model. `topic_model` is used to tag each article in the corpus with certain related topics. `doc_topic` is used to evaluate the created topics from the corpus, and also to assign topics to the query article so that k-NN algorithm can retreive recommended articles. 
+
 ### Sentiment Predictor
 
 ### Topic Predictor
+
+The topic predictor outputs relevant topics to a query article by using the topic model from the Guided LDA. 
+
+**Inputs**:
+
+* `topic_model`: Matrix relating topics to words. dim = (k, d)
+
+**Outputs**:
+
+* `query_article_topics`: A vector of topic probabilities. Equivalent to a single row in `doc_topic`, just for the query article. dim = (1, k)
 
 ### KNN Search Algorithm
 
@@ -44,7 +86,6 @@
 
 		* User Interface for random article or keyword input
 		* User Interface for recommended articles output
-
 
 ### Join Process
 
