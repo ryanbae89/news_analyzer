@@ -26,7 +26,7 @@ The Guided LDA is the component that creates the topic model from the articles c
 
 * `doc_topic`: Matrix relating documents (articles) with topics. dim = (n, k)
 
-* `topic_model`: Matrix relating topics to words. dim = (k, d)
+* `topic_word`: Matrix relating topics to words. dim = (k, d)
 
 **Hyperparameters**:
 
@@ -40,7 +40,7 @@ The Guided LDA is the component that creates the topic model from the articles c
 
 **Relation with other components**:
 
-`topic_model` and `doc_topic` are the topic model. `topic_model` is used to tag each article in the corpus with certain related topics. `doc_topic` is used to evaluate the created topics from the corpus, and also to assign topics to the query article so that k-NN algorithm can retreive recommended articles. 
+`topic_word` and `doc_topic` are the topic model. `topic_word` is used to tag each article in the corpus with certain related topics. `doc_topic` is used to evaluate the created topics from the corpus, and also to assign topics to the query article so that k-NN algorithm can retreive recommended articles. 
 
 ### Sentiment Predictor
 
@@ -50,7 +50,7 @@ The topic predictor outputs relevant topics to a query article by using the topi
 
 **Inputs**:
 
-* `topic_model`: Matrix relating topics to words. dim = (k, d)
+* `topic_word`: Matrix relating topics to words. dim = (k, d)
 
 **Outputs**:
 
@@ -58,34 +58,34 @@ The topic predictor outputs relevant topics to a query article by using the topi
 
 ### KNN Search Algorithm
 
-	This component have 3 functions: `Collect User Input` retrieve random article or keywords from the interface and feeds it into Topic Scoring and Sentiment Analysis system. `KNN Search` models input article with original article database and output recommended articles based on distance in topic and sentiment. `Output to Interface` sends the recommended articles back to the user interface.
+This component have 3 functions: `Collect User Input` retrieve random article or keywords from the interface and feeds it into Topic Scoring and Sentiment Analysis system. `KNN Search` models input article with original article database and output recommended articles based on distance in topic and sentiment. `Output to Interface` sends the recommended articles back to the user interface.
 
-	**Name**: KNN_Search
+**Name**: KNN_Search
 
-	**Functions**: Use KNN algorithm to recommend similar articles to the input article or keywords
+**Functions**: Use KNN algorithm to recommend similar articles to the input article or keywords
 
-	**Inputs**: 
+**Inputs**: 
 
-		* topic score(int or float): topic modeling score for each potential topics
-		* sentiment score(binary): sentiment encoding for articles
-		* random article or keyword(text): user input random article or keyword
-		* random article topic score(int or float): topic modeling score for user input article
-		* random article sentiment score(binary): sentiment encoding for user input article
+* topic score(int or float): topic modeling score for each potential topics
+* sentiment score(binary): sentiment encoding for articles
+* random article or keyword(text): user input random article or keyword
+* random article topic score(int or float): topic modeling score for user input article
+* random article sentiment score(binary): sentiment encoding for user input article
 
-	**Outputs**:
+**Outputs**:
 
-		* recommended articles(text): based on KNN search, output similar articles from database in regards to topic score and sentiment encoding
+* recommended articles(text): based on KNN search, output similar articles from database in regards to topic score and sentiment encoding
 
-	**Relation with other components**:
+**Relation with other components**:
 
-		* Topic Analysis from Guided LDA: KNN Search uses topic score for articles in the database as well as user input article
-		* Sentiment Encoding: KNN Search uses sentiment encoding as another input for modeling distance between user input article and articles in the original database
-		* Output recommended articles into interface: After performing KNN search algorithm, certain number of similar/related articles will be pushed to user interface
+* Topic Analysis from Guided LDA: KNN Search uses topic score for articles in the database as well as user input article
+* Sentiment Encoding: KNN Search uses sentiment encoding as another input for modeling distance between user input article and articles in the original database
+* Output recommended articles into interface: After performing KNN search algorithm, certain number of similar/related articles will be pushed to user interface
 
-	**Sub-components**:
+**Sub-components**:
 
-		* User Interface for random article or keyword input
-		* User Interface for recommended articles output
+* User Interface for random article or keyword input
+* User Interface for recommended articles output
 
 ### Join Process
 
