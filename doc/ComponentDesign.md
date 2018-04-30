@@ -6,7 +6,17 @@
 
 ### Preprocessing (Query version)
 
-### Build Sentiment Model
+### Sentiment Analyzer
+The Sentiment Analyzer is a component that takes an article and extracts a sentiment score. It splits the article into sentences and uses the NLTK Vader module to analyze the sentiments for each sentence. Based on these sentiments it returns an overall sentiment for the article. It aggregates and returns the number of positive, negative and neutral sentences.
+
+**Inputs:**  
+* `article`: Input article to analyze  
+
+**Outputs:**  
+* `article_sentiment`: A value of 'Positive', 'Negative' or 'Neutral'.  
+* `pos_sentences`: Number of positive sentences.  
+* `neg_sentences`: Number of negative sentences.  
+* `neu_sentences`: Number of neutral sentences.  
 
 ### Guided LDA
 
@@ -42,7 +52,15 @@ The Guided LDA is the component that creates the topic model from the articles c
 
 `topic_word` and `doc_topic` are the topic model. `topic_word` is used to tag each article in the corpus with certain related topics. `doc_topic` is used to evaluate the created topics from the corpus, and also to assign topics to the query article so that k-NN algorithm can retreive recommended articles. 
 
-### Sentiment Predictor
+### Word Cloud Generator
+This component generates a word cloud based on the word occurrence in the article. It uses the WordCloud module. The output is an image for the word cloud.  
+
+**Inputs:**  
+* `article`: Input article to analyze   
+
+**Outputs:**  
+* `image` : An image for the word cloud  
+
 
 ### Topic Predictor
 
