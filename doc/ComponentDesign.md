@@ -1,6 +1,6 @@
 # Component Design for News NLP
 
-![ComponentDesignFlowChart]("news-nlp-flowchart-2.png")
+![ComponentDesignFlowChart]("news-nlp-flowchart-2.png?raw=true")
 
 ### UI
 
