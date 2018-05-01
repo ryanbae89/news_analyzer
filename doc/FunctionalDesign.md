@@ -2,7 +2,7 @@
 
 News article recommendation systems are often driven by article importance and article popularity which can lead to articles not being curtailed to an individual. We aim to create an interface to display and interact with articles (including a text search) so users can understand what topics they are looking at and what other related articles they might be interested in. As part of the article analysis, we will display article sentiment and topic information.
 
-To create this tool, we use a Kaggle dataset containing approximately 140,000 articles. The dataset includes article dates, publisher, author, title and content. Using a LDP model, we categorize the articles using the title and content into predefined buckets (e.g. 'technology' or 'politics'). These topics are used both for classification and for visualization.
+To create this tool, we use a Kaggle dataset containing approximately 140,000 articles. The dataset includes article dates, publisher, author, title and content. Using a variant of a Latent Dirichlet Allocation (LDA) model, we categorize the articles using the title and content into predefined buckets (e.g. 'technology' or 'politics'). These topics are used both for classification and for visualization.
 
 We use word sentiment scores from XXX to calculate the article sentiments. The sentiment is used primarily for visualization purposes so the user can see the spectrum of sentiments and how their particular article compares.
 

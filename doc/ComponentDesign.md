@@ -1,18 +1,33 @@
 # Component Design for News NLP
 
-![ComponentDesignFlowChart](news-nlp-flowchart-2.png?raw=true)
 
 ### UI
 
 ### Preprocessing (Article Corpus version)
+The Preprocessing component is in charge of transforming the data in such a way that is ingestible by the other components in the system. This would involve things like tokenizing words, converting words into lowercase, removing punctuation and stop words,  lemmatizing, as well as limiting the vocabulary.
+
+**Inputs:**  
+* `articles_corpus`: Input corpus of articles to preprocess and train on.
+* `preprocess_configurations`: This would help tell the preprocessor what actions to take. For example, the maximum vocabulary size, minimum usage of a word, whether to lemmetize, whether to take tf-idf scores, etc.
+
+**Outputs:**  
+* `articles`: A document-term-matrix with words as columns and rows as article ID's, with a binary indicator for whether the word appears in the article. 
 
 ### Preprocessing (Query version)
+The "Query" version of Preprocessing is the pre-trained Preprocessing component with its vocabulary built-in. It will run the same pipeline used to preprocess the `articles_corpus` given the configuration settings, and will also limit the vocabulary to match that of the `articles_corpus`. 
+
+**Inputs:**  
+* `article_text`: A single stream of text representing an article. 
+
+**Outputs:**  
+* `article`: A bag-of-words representation of the article corresponding to a row in a document-term-matrix.
+
 
 ### Sentiment Analyzer
 The Sentiment Analyzer is a component that takes an article and extracts a sentiment score. It splits the article into sentences and uses the NLTK Vader module to analyze the sentiments for each sentence. Based on these sentiments it returns an overall sentiment for the article. It aggregates and returns the number of positive, negative and neutral sentences.
 
 **Inputs:**  
-* `article`: Input article to analyze  
+* `article`: A bag-of-words representation of the article corresponding to a row in a document-term-matrix.
 
 **Outputs:**  
 * `article_sentiment`: A value of 'Positive', 'Negative' or 'Neutral'.  
@@ -32,7 +47,7 @@ The Guided LDA is the component that creates the topic model from the articles c
 
 **Inputs**:
 
-* `articles`: A bag-of-words representation of articles. Each row represents an article in the corpus, while each column represents a unique word in the corpus after stopping and stemming. dim = (n, d)
+* `articles`: A bag-of-words representation of articles (document-term-matrix). Each row represents an article in the corpus, while each column represents a unique word in the corpus after preprocessing. dim = (n, d)
 
 **Outputs**:
 
