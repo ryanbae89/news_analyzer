@@ -25,7 +25,7 @@ The interface provides a list of articles that have similar topics to the inputt
 
 #### Sentiment Analysis
 
-The sentiment of the inputted text is analyzed and visualized. We will also provide a histogram of the sentiments of all of the articles in the dataset grouped by publisher.
+The sentiment of the inputted text is analyzed and visualized. As a stretch use case, we may also provide a histogram of the sentiments of all of the articles in the dataset grouped by publisher.
 
 #### Topic Insights
 
