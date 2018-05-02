@@ -37,4 +37,4 @@ The most common words of the inputted text are provided as a word cloud, so at a
 
 ### Mockups:
 
-(Paul will draft something and add in later Monday)
+![UiMockup](mockup.png?raw=true)
