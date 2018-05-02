@@ -17,7 +17,7 @@ In both cases, the tool provides an exploratory way of looking into the types of
 
 The tool provides a few insights into article attributes that can be used in different ways. The first is that it provides recommended articles based off of the inputted text. The output also includes sentiment information enabling users to search and compare article sentiments. Lastly, the output provides a list of related topics.
 
-The user is presented with a text box where they may enter words, sentences or an article. The text is analyzed and compared to the dataset of articles to create the three main visualizations for the user to see:
+The user is presented with a text box where they may enter words, sentences or an article. The text is analyzed and compared to the dataset of articles to create the four main visualizations for the user to see:
 
 #### Recommended Articles
 
@@ -25,12 +25,15 @@ The interface provides a list of articles that have similar topics to the inputt
 
 #### Sentiment Analysis
 
-The sentiment of the inputted text is plotted over a histogram of the sentiments of all of the articles.
+The sentiment of the inputted text is analyzed and visualized. We will also provide a histogram of the sentiments of all of the articles in the dataset grouped by publisher.
 
 #### Topic Insights
 
 The top sentiments of the inputted text are listed/visualized to enable the user to identify and interact with (XXX) the different topics. 
 
+#### Word Cloud Summary
+
+The most common words of the inputted text are provided as a word cloud, so at a glance the user can get a quick idea of what the article or text is about.  
 
 ### Mockups:
 
