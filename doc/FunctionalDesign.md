@@ -34,4 +34,4 @@ The top sentiments of the inputted text are listed/visualized to enable the user
 
 ### Mockups:
 
-(Paul will draft something and add in later Monday)
+![UiMockup](mockup.png?raw=true)
