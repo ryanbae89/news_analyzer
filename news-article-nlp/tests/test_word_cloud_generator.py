@@ -4,7 +4,7 @@ Unit Tests for WordCloudGenerator
 import sys
 sys.path.append('../libraries')
 import unittest
-import WordCloudGenerator
+import word_cloud_generator
 import matplotlib.pyplot as plt
 #from PIL import Image
 
@@ -24,7 +24,7 @@ class WordCloudGeneratorTest(unittest.TestCase):
         Returns:
             null
         """
-        my_image = WordCloudGenerator.generate_wordcloud("random data")
+        my_image = word_cloud_generator.generate_wordcloud("random data")
         self.assertTrue(my_image is not None)
 
 
