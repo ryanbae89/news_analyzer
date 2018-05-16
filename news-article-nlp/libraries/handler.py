@@ -58,5 +58,5 @@ class ResourceLoader():
 
 def load_pickled(filename):
 	with open(filename, "rb") as input_file:
-		object = Pickle.load(input_file)
+		object = pickle.load(input_file)
 	return object
