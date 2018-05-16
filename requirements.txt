@@ -1,3 +1,10 @@
-wordcloud-1.3.2-cp36-cp36m-win_amd64.whl
+wordcloud
+nltk
+numpy 
 pandas
-numpy
+guidedla
+scikit-learn
+dash
+base64
+
+
