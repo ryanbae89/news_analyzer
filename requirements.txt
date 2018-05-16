@@ -2,7 +2,7 @@ wordcloud
 nltk
 numpy 
 pandas
-guidedla
+guidedlda
 scikit-learn
 dash
 base64
