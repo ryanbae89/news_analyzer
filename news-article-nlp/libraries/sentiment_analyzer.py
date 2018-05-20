@@ -1,10 +1,25 @@
-from nltk import tokenize
-from nltk.sentiment.vader import SentimentIntensityAnalyzer as sid
+"""
+sentiment_analyzer
 
-#ToDO: Recalculate sentiment algo
+This module has 1 function:
+    get_sentiment (see more details below)
+"""
+from nltk import tokenize
+from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
+
+
 def get_sentiment(article):
-    pos_value = 0.0
-    neg_value = 0.0
+    """
+    A function that analyzes the sentiment on the input string.
+
+    Args:
+            input_string (string): string representing the query article.
+
+    Returns:
+            Dictionary: A dictionary of sentiment results
+
+    """
+    sid = SIA()
 
     pos_sentences = 0
     neg_sentences = 0
@@ -15,16 +30,24 @@ def get_sentiment(article):
 
     for sentence in sentences:
         sentiment = sid.polarity_scores(sentence)
-        pos_value = pos_value + sentiment.get('pos')
-        neg_value = neg_value + sentiment.get('neg')
 
-        sentiment_diff = (sentiment.get('pos') - sentiment.get('neg'))
-        if sentiment_diff > threshold:
+        sentiment_compound = sentiment.get('compound')
+        if sentiment_compound > 0:
             pos_sentences += 1
-        elif sentiment_diff < -threshold:
+        elif sentiment_compound < 0:
             neg_sentences += 1
         else:
             nue_sentences += 1
 
-    return {"Overall_Sentiment": "Postive", "Positive_Sentences": pos_sentences, "Negative_Sentences": neg_sentences,
-            "Neutral_Sentences": nue_sentences}
+    if pos_sentences > neg_sentences:
+        overall_sentiment = "Positive"
+    elif pos_sentences < neg_sentences:
+        overall_sentiment = "Negative"
+    else:
+        overall_sentiment = "Neutral"
+
+    return {"Overall_Sentiment": overall_sentiment,
+            "Positive_Sentences": pos_sentences,
+            "Negative_Sentences": neg_sentences,
+            "Neutral_Sentences": nue_sentences,
+            "Total_Sentences": sentences_count}

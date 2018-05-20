@@ -1,23 +1,31 @@
-# conda install -c conda-forge wordcloud
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud, STOPWORDS
-stopwords = set(STOPWORDS)
+"""
+word_cloud_generator
 
-def generate_wordcloud(data):
+This module has 1 function:
+    generate_wordcloud (see more details below)
+"""
+from wordcloud import WordCloud, STOPWORDS
+STOP_WORDS = set(STOPWORDS)
+
+
+def generate_wordcloud(input_string):
+    """
+    A function that generates a Word Cloud based on the input string.
+
+    Args:
+            input_string (string): string representing the query article.
+
+    Returns:
+            image: representing the word cloud image
+
+    """
     wordcloud = WordCloud(
         background_color='white',
-        stopwords=stopwords,
+        stopwords=STOP_WORDS,
         max_words=200,
         max_font_size=40,
         scale=3,
         random_state=1
-    ).generate(str(data))
+    ).generate(str(input_string))
 
-    #fig = plt.figure(1, figsize=(20, 12))
-    #plt.axis('off')
-    #fig.show()
     return wordcloud
-
-
-    #plt.imshow(wordcloud)
-    #plt.show()

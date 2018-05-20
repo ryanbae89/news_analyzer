@@ -87,7 +87,7 @@ class Handler():
 
 	def get_word_cloud(self, query_article):
 		return word_cloud_generator.generate_wordcloud(query_article)
-													   
+
 class ResourceLoader():
 
 	def get_corpus(self):
