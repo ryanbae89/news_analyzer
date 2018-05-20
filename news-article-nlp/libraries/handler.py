@@ -1,11 +1,14 @@
 #import sentiment        #update with proper names
 #import knn_model_file   #update with proper names
 #import wordcloud
+import numpy as np
 import pandas as pd
 import pickle
 
 # Internal tools
+import NYTimesArticleRetriever
 import text_processing
+import topic_modeling
 import configs
 
 class Handler():
@@ -17,14 +20,60 @@ class Handler():
 		self.preprocessor = loader.get_preprocessor()
 		self.corpus = loader.get_corpus()
 
-	def get_topics(self, query_article, guided = True):
-		# preprocess query article
-		article = self.preprocessor.transform(query_article) # processed article
-		vocab = self.preprocessor.get_vocab() # dictionary of word to index mapping
+	def build_topic_models(models_path):
+		"""
+		Builds topic models from the news articles corpus and saves
+		them in desired directory.
 
-		# passes article into topic modeler (depending on guided or unguided)
-		# returns
-		return None
+		Args:
+			articles = pandas dataframe, corpus of articles
+			models_path = string, path where the models are saved
+		"""
+		# get doc-term-matrix of the articles corpus
+		preprocessor = text_processing.ArticlePreprocessor()
+		corpus_dtm = preprocessor.get_dtm(self.corpus)
+		# get vocab and word2id
+		vocab, word2id = topic_modeling.get_vocab(corpus_dtm)
+		# get NYT seed words
+		topics_raw = NYTimesArticleRetriever.get_nytimes_topic_words()
+		bad_topics = ['national', 'nyregion', 'obituaries']
+		topics_clean = topic_modeling.clean_topics(topics_raw, vocab, word2id, bad_topics)
+		seed_topics = topic_modeling.get_seed_topics(topics_clean, word2id)
+		# fit guided model
+		topic_modeler = topic_modeling.TopicModeler(n_topics=len(topics_clean), n_iter=100, 
+			random_state=0, refresh=20)
+		guided_topic_model = topic_modeler.fit(dtm=corpus_dtm, seed_topics=seed_topics, 
+			seed_confidence=0.15)
+		# fit unguided model
+		n_topics = corpus_dtm.shape[0]/10.0
+		topic_modeler = topic_modeling.TopicModeler(n_topics=n_topics, n_iter=100, 
+			random_state=0, refresh=20)
+		unguided_topic_model = topic_modeler.fit(dtm=corpus_dtm)
+		# save models
+		with open(models_path + '/guided_topic_model.pickle', 'wb') as file_handle:
+			pickle.dump(guided_topic_model, file_handle)
+		with open(models_path + '/unguided_topic_model.pickle', 'wb') as file_handle:
+			pickle.dump(unguided_topic_model, file_handle)
+		with open(models_path + '/vocab.pickle', 'wb') as file_handle:
+			pickle.dump([vocab, word2id], file_handle)
+
+	def get_topics(self, query_article):
+		"""
+		Processes query article for recommender system.
+
+		Args:
+			query_article = string, article or words being queried
+		Returns:
+			query_topics = list, guided and unguided topics distribution
+		"""
+		# convert query article to doc-term-matrix
+		query_dtm = self.preprocessor.transform(query_article)
+		# join the query article doc-term-matrix with models
+		query_guided_topics = self.guided_topic_model.transform(np.array(query_dtm))
+		query_unguided_topics = self.unguided_topic_model.transform(np.array(query_dtm))
+		# return the topic distribution of the query article for recommender
+		query_topics = [query_guided_topics, query_unguided_topics]
+		return query_topics
 
 	def get_sentiment(self, query_article):
 		return None #sentiment.get_sentiment():
