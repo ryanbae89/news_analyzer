@@ -30,3 +30,20 @@ def join_process(index):
     article_corpus.set_index('Article_index', inplace=True)
     selected_articles = article_corpus.loc[index.tolist()[0]]
     return selected_articles['title']
+
+def get_recommended_articles(doc_topic_matrix,query_vector):
+	""" Links knn_prediction and join_porcess together and output final result
+
+	    Args:
+	        doc_topic_matrix = probability matrix generated from LDA model on articles corpus
+            query_vector = probability vector generated from LDA model on user query article
+        Returns:
+            selected_articles = five article titles based on topic relevance
+    """
+    index = knn_prediction(doc_topic_matrix,query_vector)
+    return join_porcess(index)
+
+
+
+
+
