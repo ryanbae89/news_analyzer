@@ -1,0 +1,8 @@
+wordcloud
+nltk
+numpy 
+pandas
+guidedlda
+scikit-learn
+dash
+
