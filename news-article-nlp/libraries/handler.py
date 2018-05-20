@@ -1,6 +1,4 @@
-#import sentiment        #update with proper names
 #import knn_model_file   #update with proper names
-#import wordcloud
 import numpy as np
 import pandas as pd
 import pickle
@@ -10,6 +8,8 @@ import NYTimesArticleRetriever
 import text_processing
 import topic_modeling
 import configs
+import word_cloud_generator
+import sentiment_analyzer
 
 class Handler():
 
@@ -76,7 +76,7 @@ class Handler():
 		return query_topics
 
 	def get_sentiment(self, query_article):
-		return None #sentiment.get_sentiment():
+		return sentiment_analyzer.get_sentiment(query_article)
 
 	def get_recommended_articles(self, query_article):
 		# do a separate topic analysis
@@ -86,8 +86,8 @@ class Handler():
 		#knn_model_file.get_recommended_articles(query_topics, unguided_topic_model (filter to topic matrix?) )
 
 	def get_word_cloud(self, query_article):
-		return wordcloud.get_word_cloud()
-
+		return word_cloud_generator.generate_wordcloud(query_article)
+													   
 class ResourceLoader():
 
 	def get_corpus(self):
