@@ -46,6 +46,43 @@ EXTRA_STOPWORDS = [
 
 
 
+def transform_article(article):
+    """ Function for transforming a single article.
+        Cleans text (see clean_article function) and performs
+        lemmatization.
+
+        Args:
+        article: a string of text.
+
+        Returns:
+        A string of preprocessed text.
+    """
+    tokens = clean_article(article)
+    lemmatizer = WordNetLemmatizer()
+    lemmatized = [lemmatizer.lemmatize(token) for token in tokens]
+    transformed_article = " ".join(lemmatized)
+    return transformed_article
+
+def clean_article(text):
+    """ Helper function for cleaning an article.
+        Converts to lowercase, removes punctuation,
+        removes stopwords anything that isn't alpabetic.
+
+        Args:
+        text: A string of text.
+
+        Returns:
+        A list of cleaned words from the text.
+    """
+    tokens = word_tokenize(text)
+    tokens = [word.lower() for word in tokens]
+    table = str.maketrans('', '', string.punctuation)
+    stripped = [w.translate(table) for w in tokens]
+    words = [word for word in stripped if word.isalpha()]
+    stop_words = set(stopwords.words('english'))
+    words_list = [w for w in words if not w in stop_words]
+    return words_list
+
 class ArticlePreprocessor():
     """ Class for preprocessing articles.
     """
@@ -120,7 +157,7 @@ class ArticlePreprocessor():
                                     Provide series of articles.")
             else:
                 return self.dtm.copy()
-
+          
         vectorizer = CountVectorizer(preprocessor=transform_article,
                                      max_features=self.max_features,
                                      min_df=self.min_df)
