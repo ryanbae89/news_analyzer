@@ -32,10 +32,10 @@ def join_process(index):
     return selected_articles['title']
 
 def get_recommended_articles(doc_topic_matrix,query_vector):
-	""" Links knn_prediction and join_porcess together and output final result
+    """ Links knn_prediction and join_porcess together and output final result
 
-	    Args:
-	        doc_topic_matrix = probability matrix generated from LDA model on articles corpus
+        Args:
+            doc_topic_matrix = probability matrix generated from LDA model on articles corpus
             query_vector = probability vector generated from LDA model on user query article
         Returns:
             selected_articles = five article titles based on topic relevance
