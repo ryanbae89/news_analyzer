@@ -9,7 +9,7 @@ import pandas as pd
 import guidedlda
 
 #  news-articles-nlp imports
-import NYTimesArticleRetriever
+# import NYTimesArticleRetriever
 import text_processing 
 
 def get_vocab(dtm):

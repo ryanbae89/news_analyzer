@@ -14,7 +14,7 @@ def knn_prediction(doc_topic_matrix,query_vector):
             ind = index of closest 5 articles based on distance in topic relevance
     """
     tree = KDTree(doc_topic_matrix)
-    dist, ind = tree.query(np.array([query_vector]), k=5)
+    dist, ind = tree.query(np.array(query_vector), k=5)
     return(ind)
 
 def join_process(index, article_corpus):
@@ -26,9 +26,9 @@ def join_process(index, article_corpus):
             selected_articles = five article titles based on topic relevance
     """
     # article_corpus = ResourceLoader.get_corpus()
-    article_corpus.rename(columns={'Unnamed: 0': 'Article_index'}, inplace=True) 
-    article_corpus.set_index('Article_index', inplace=True)
-    selected_articles = article_corpus.loc[index.tolist()[0]]
+    # article_corpus.rename(columns={'Unnamed: 0': 'Article_index'}, inplace=True) 
+    # article_corpus.set_index('Article_index', inplace=True)
+    selected_articles = article_corpus.iloc[index.tolist()[0]]
     return selected_articles['title']
 
 def get_recommended_articles(doc_topic_matrix, query_vector, article_corpus):
@@ -41,7 +41,7 @@ def get_recommended_articles(doc_topic_matrix, query_vector, article_corpus):
             selected_articles = five article titles based on topic relevance
     """
     index = knn_prediction(doc_topic_matrix, query_vector)
-    return join_porcess(index, article_corpus)
+    return join_process(index, article_corpus)
 
 
 

@@ -46,9 +46,11 @@ class Handler():
 	def get_recommended_articles(self, query_article):
 		# do a separate topic analysis
 		query_vector = self.get_topics(query_article)[1]
+		print(type(query_vector))
 		doc_topic_matrix = self.unguided_topic_model.doc_topic_
 		recommended_articles = article_recommender.get_recommended_articles(doc_topic_matrix, 
 			query_vector, self.corpus)
+		print(recommended_articles)
 		return recommended_articles
 
 	def get_word_cloud(self, query_article):
