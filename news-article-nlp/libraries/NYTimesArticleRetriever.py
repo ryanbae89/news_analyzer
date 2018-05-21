@@ -15,6 +15,7 @@ import requests
 import pandas as pd
 import numpy as np
 
+import configs
 import text_processing
 
 def get_nytimes_topic_words():
@@ -39,10 +40,7 @@ def get_nytimes_data(sections='all'):
 		content as a string.
 	"""
 	if sections == 'all':
-		sections = ['arts', 'automobiles', 'books', 'business', 'fashion', 'food',
-					'health', 'magazine', 'movies', 'national', 'nyregion', 'obituaries',
-					'politics', 'realestate', 'science', 'sports', 'technology',
-					'theater', 'travel', 'world']
+		sections = configs.GUIDED_LDA_TOPICS
 
 	nytimes_data = []
 	for section in sections:

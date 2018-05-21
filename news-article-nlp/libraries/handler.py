@@ -36,8 +36,13 @@ class Handler():
 		# join the query article doc-term-matrix with models
 		query_guided_topics = self.guided_topic_model.transform(np.array(query_dtm))
 		query_unguided_topics = self.unguided_topic_model.transform(np.array(query_dtm))
+		
+		top_guided_topic_index = query_guided_topics.argsort()[0][-3:]
+		print(top_guided_topic_index)
+		print(type(top_guided_topic_index))
 		# return the topic distribution of the query article for recommender
-		query_topics = [query_guided_topics, query_unguided_topics]
+		query_topics = [np.asarray(configs.GUIDED_LDA_TOPICS)[top_guided_topic_index], 
+		                query_unguided_topics]
 		return query_topics
 
 	def get_sentiment(self, query_article):
@@ -46,11 +51,9 @@ class Handler():
 	def get_recommended_articles(self, query_article):
 		# do a separate topic analysis
 		query_vector = self.get_topics(query_article)[1]
-		print(type(query_vector))
 		doc_topic_matrix = self.unguided_topic_model.doc_topic_
 		recommended_articles = article_recommender.get_recommended_articles(doc_topic_matrix, 
 			query_vector, self.corpus)
-		print(recommended_articles)
 		return recommended_articles
 
 	def get_word_cloud(self, query_article):
