@@ -157,7 +157,7 @@ class ArticlePreprocessor():
                                     Provide series of articles.")
             else:
                 return self.dtm.copy()
-          
+
         vectorizer = CountVectorizer(preprocessor=transform_article,
                                      max_features=self.max_features,
                                      min_df=self.min_df)
@@ -184,12 +184,13 @@ class ArticlePreprocessor():
     def get_vocab(self):
         """ Function for returning vocabulary of fit document-term-matrix.
             Returns:
-            dictionary with (word: index) for (key: value)
+            list mapping to columns of document-term-matrix
+            of latest transformed (.transform()) text.
         """
         if self.dtm is None:
             raise ValueError("Preprocessor has not been fit. \
                                 Provide series of articles.")
-        return copy.deepcopy(self.vectorizer.vocabulary_)
+        return list(self.dtm.columns)
 
 
 def clean_article(text):
