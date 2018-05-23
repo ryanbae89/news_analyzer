@@ -1,6 +1,6 @@
 import unittest
-import sys
-sys.path.append('../libraries')
+import os
+os.chdir('news-article-nlp/libraries')
 import handler
 
 class TestHandler(unittest.TestCase):
