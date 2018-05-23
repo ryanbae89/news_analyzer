@@ -16,16 +16,14 @@ Example:
     # For any new query article:
     prep.transform(article)
 """
-
-# System dependencies
-import os
-import sys
+# Base imports
+import string
+# import copy
 
 # Standard imports
 import pandas as pd
-import numpy as np
-import string
-import copy
+# import numpy as np
+
 
 # NLTK imports
 from nltk import word_tokenize
@@ -37,14 +35,12 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 # Module Constants
 EXTRA_STOPWORDS = [
-            "said",
-            "mr",
-            "like",
-            "ms",
-            "mrs"
+    "said",
+    "mr",
+    "like",
+    "ms",
+    "mrs"
 ]
-
-
 
 def transform_article(article):
     """ Function for transforming a single article.
@@ -96,8 +92,9 @@ class ArticlePreprocessor():
                     documents. If integer, the absolute counts.
         """
         self.max_features = max_features
-        self.min_df=min_df
+        self.min_df = min_df
         self.dtm = None
+        self.vectorizer = None
 
     def fit(self, X, y=None):
         """ Function for fitting preprocessor.
@@ -177,7 +174,7 @@ class ArticlePreprocessor():
             vectorizer_output: output of sklearn's CountVectorizer.
         """
         tdm = pd.DataFrame(vectorizer_output.toarray().transpose(),
-                            index = self.vectorizer.get_feature_names())
+                            index=self.vectorizer.get_feature_names())
         dtm = tdm.transpose()
         return dtm
 
@@ -191,41 +188,3 @@ class ArticlePreprocessor():
             raise ValueError("Preprocessor has not been fit. \
                                 Provide series of articles.")
         return list(self.dtm.columns)
-
-
-def clean_article(text):
-    """ Helper function for cleaning an article.
-        Converts to lowercase, removes punctuation,
-        removes stopwords and anything that isn't alpabetic.
-
-        Args:
-        text: A string of text.
-
-        Returns:
-        A list of cleaned words from the text.
-    """
-    tokens = word_tokenize(text)
-    tokens = [word.lower() for word in tokens]
-    table = str.maketrans('', '', string.punctuation)
-    stripped = [w.translate(table) for w in tokens]
-    words = [word for word in stripped if word.isalpha()]
-    stop_words = list(set(stopwords.words('english'))) + EXTRA_STOPWORDS
-    words_list = [w for w in words if not w in stop_words]
-    return words_list
-
-def transform_article(article):
-    """ Function for transforming a single article.
-        Cleans text (see clean_article function) and performs
-        lemmatization.
-
-        Args:
-        article: a string of text.
-
-        Returns:
-        A string of preprocessed text.
-    """
-    tokens = clean_article(article)
-    lemmatizer = WordNetLemmatizer()
-    lemmatized = [lemmatizer.lemmatize(token) for token in tokens]
-    transformed_article = " ".join(lemmatized)
-    return transformed_article
