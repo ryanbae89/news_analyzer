@@ -17,9 +17,6 @@ install:
     - pip install -r requirements.txt
 
 before_script:
-    - python import nltk
-    - python nltk.download('punkt')
-    - python nltk.download('vader_lexicon')
     - flake8 news-article-nlp || echo "flake8 may have failed. Expand to see flake8 messages."
     - pylint news-article-nlp || echo "pylint may have failed. Expand to see pylint messages."
 
