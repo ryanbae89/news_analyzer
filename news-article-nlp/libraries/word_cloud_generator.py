@@ -6,7 +6,9 @@ This module has 1 function:
 """
 from wordcloud import WordCloud, STOPWORDS
 STOP_WORDS = set(STOPWORDS)
-
+import io
+import base64
+from PIL import Image
 
 def generate_wordcloud(input_string):
     """
@@ -26,6 +28,13 @@ def generate_wordcloud(input_string):
         max_font_size=40,
         scale=3,
         random_state=1
-    ).generate(str(input_string))
+    ).generate(str(input_string))#.to_image()
+    #output = io.StringIO()
+    wordcloud.to_file("temp.png")
+    wordcloud_png = open("temp.png",'rb').read()
+    #wordcloud.to_file(output)
+    #wordcloud = output.getvalue()
+    #output.close()
+    encoded_image = base64.b64encode(wordcloud_png)
 
-    return wordcloud
+    return encoded_image

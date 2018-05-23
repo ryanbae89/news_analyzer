@@ -3,11 +3,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
 import base64
 import pandas as pd
 import os
 import numpy as np
+import flask
 
 import handler
 
@@ -17,9 +17,12 @@ image_filename = '/Users/paulwright/Dropbox/UW/2018_s_DATA515/Project/UI_Testing
 #encoded_image2 = base64.b64encode(open('img_test2.jpg', 'rb').read())
 my_handler = handler.Handler()
 
+#image_filename = static_image_route
+encoded_image = base64.b64encode(open(image_filename,'rb').read())
 #image_filename = 'WC_Image.png' # replace with your own image
 #encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
+static_image_route = '/Users/paulwright/Dropbox/UW/2018_s_DATA515/Project/UI_Testing/WC_Image.png'
 app.layout = html.Div([
     
 ])
@@ -35,24 +38,10 @@ def make_dash_table(df):
         table.append(html.Tr(html_row))
     return table
 
-def get_logo():
-    logo = html.Div([
-
-        html.Div([
-            html.Img(src='./WC_Image.png')
-        ], className="ten columns padded"),
-
-        html.Div([
-            dcc.Link('Full View   ', href='/full-view')
-        ], className="two columns page-view no-print")
-
-    ], className="row gs-header")
-    return logo
-
 app.layout = html.Div([
     html.H2(["News Articles Analyzer"],
                     className="padded"),
-    dcc.Textarea(placeholder = "Enter text / article here...",
+    dcc.Textarea(value = "art photo picture performance theatre", #placeholder = "Enter text / article here...", 
         style = {'width': '100%'}, id='input-1-state'),#, type='text', value='Montréal'),
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
     html.Div(id='output-state'),
@@ -70,11 +59,15 @@ app.layout = html.Div([
                                        ))
             ], id = "recommended_articles", className="six columns"),
         html.Div([
-            html.Img(src='https://www.w3schools.com/images/w3schools_green.jpg', 
-                 #height='142', 
-                 width='50%', 
-                 alt = "test image")
-        ], className="six columns")
+            
+            html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
+                     width='100%')
+            #html.Img(src='https://www.w3schools.com/images/w3schools_green.jpg', 
+            #     #height='142', 
+            #     width='50%', 
+            #     alt = "word cloud image?",
+            #     id = "wc_image")
+        ], id = "wc_image", className="six columns")
     ], className="row "),
     html.Div([
         html.Div([
@@ -89,34 +82,6 @@ app.layout = html.Div([
                     className="gs-header gs-table-header padded"),
             html.Table(make_dash_table(pd.DataFrame(np.asarray([]))))
             ], id = 'top_topics',className="six columns")
-    ], className="row "),
-    html.Div([
-        html.Div([
-            dcc.Graph(
-        	id='example-graph',
-        figure={
-            'data': [
-                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'}
-            ],
-            'layout': {
-                'title': 'Sentiment Analysis?'
-            }
-        }
-    	)
-        ], className="six columns"),
-        html.Div([
-            dcc.Graph(
-        id='example-graph',
-        figure={
-            'data': [
-                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'}
-            ],
-            'layout': {
-                'title': 'Sentiment Analysis?'
-            }
-        }
-    	)
-        ], className="six columns")
     ], className="row ")
     #html.Div([
     #    html.Img(src='https://www.w3schools.com/images/w3schools_green.jpg', 
@@ -140,28 +105,7 @@ def update_output(n_clicks, input1):
     return u'''
         The Button has been pressed {} times,
         Input 1 is "{}"
-    '''.format(n_clicks, input1) 
-
-#@app.callback(Output('output-state2', 'children'),
-#              [Input('submit-button', 'n_clicks')],
-#              [State('input-1-state', 'value')])
-
-#def update_output2(n_clicks, input1):
-#    my_image = '<img alt="test image" src="https://www.w3schools.com/images/w3schools_green.jpg" width="100%">'
-#    return u'''
-#        The button has been pressed {} times,
-#        Input 1 is "{}"
-#    '''.format(n_clicks*2, input1)
-
-#################################
-
-#@app.callback(Output('output-state2', 'children'),
-#              [Input('submit-button', 'n_clicks')],
-#              [State('input-1-state', 'value')])
-
-#def update_output2(n_clicks, query_article):
-#    return my_handler.get_recommended_articles(query_article)
-
+    '''.format(n_clicks, input1)
 
 # Recommended Articles Data
 
@@ -206,10 +150,26 @@ def update_top_topics(n_clicks, query_article):
             html.Table(make_dash_table(top_topics))
             ]
 
+# Word Cloud Image
+@app.callback(Output('wc_image', 'children'),
+              [Input('submit-button', 'n_clicks')],
+              [State('input-1-state', 'value')])
 
-
-
-
+def update_word_cloud_image(n_clicks, query_article):
+    word_cloud_image = my_handler.get_word_cloud(query_article)#.to_image().convert('RGB')
+    #.to_bytes(encoder_name='raw')
+    print(type(word_cloud_image))
+    print(type(encoded_image))
+    #pd.DataFrame(my_handler.get_topics(query_article)[0])
+    return [
+            html.Img(src='data:image/png;base64,{}'.format(word_cloud_image.decode()),
+                     width='100%')
+            #html.Img(src='https://www.w3schools.com/images/w3schools_green.jpg', 
+            #     #height='142', 
+            #     width='50%', 
+            #     alt = "word cloud image?",
+            #     id = "wc_image")
+        ]
 
 external_css = ["https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css",
                 "https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css",
