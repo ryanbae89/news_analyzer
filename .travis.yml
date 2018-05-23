@@ -21,7 +21,7 @@ before_script:
     - pylint news-article-nlp || echo "pylint may have failed. Expand to see pylint messages."
 
 script:
-    - coverage run -m unittest discover
+    - coverage run -m unittest discover news-article-nlp/tests
 
 after_success:
     - coverage report
