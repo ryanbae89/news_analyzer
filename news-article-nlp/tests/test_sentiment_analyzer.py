@@ -1,8 +1,8 @@
 """
 Unit Tests for Sentiment Analyzer
 """
-import os
-os.chdir('news-article-nlp/libraries')
+import sys
+sys.path.append('news-article-nlp/libraries')
 import unittest
 import sentiment_analyzer
 import matplotlib.pyplot as plt

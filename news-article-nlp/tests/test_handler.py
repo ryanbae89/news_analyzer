@@ -21,5 +21,7 @@ class TestHandler(unittest.TestCase):
 		recommended_articles = self.handler.get_recommended_articles(query_article=self.query_article)
 		self.assertTrue(recommended_articles is not None)
 
+os.chdir('../..')
+
 if __name__ == '__main__':
     unittest.main()

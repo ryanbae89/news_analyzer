@@ -1,6 +1,6 @@
 # system import
-import os
-os.chdir('news-article-nlp/libraries')
+import sys
+sys.path.append('news-article-nlp/libraries')
 
 # test imports
 import pickle
@@ -16,8 +16,8 @@ class TestTopicModeling(unittest.TestCase):
 		python test_topic_modeling.py
 	"""
 	def setUp(self):
-		self.test_dtm = pd.read_pickle('test_dtm.pkl')
-		with open("test_topics_raw.pkl", "rb") as file_handle:
+		self.test_dtm = pd.read_pickle('news-article-nlp/tests/test_dtm.pkl')
+		with open("news-article-nlp/tests/test_topics_raw.pkl", "rb") as file_handle:
 			self.raw_topics = pickle.load(file_handle)
 		self.bad_topics = ['national', 'nyregion', 'obituaries']
 		self.vocab, self.word2id = topic_modeling.get_vocab(self.test_dtm)
