@@ -3,7 +3,7 @@ import sys
 sys.path.append('../libraries')
 import handler
 
-class test_TestHandler(unittest.TestCase):
+class TestHandler(unittest.TestCase):
 
 	def setUp(self):
 		self.handler = handler.Handler()
