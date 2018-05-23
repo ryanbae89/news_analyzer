@@ -1,8 +1,8 @@
 """
 Unit Tests for WordCloudGenerator
 """
-import sys
-sys.path.append('../libraries')
+import os
+os.chdir('news-article-nlp/libraries')
 import unittest
 import word_cloud_generator
 import matplotlib.pyplot as plt

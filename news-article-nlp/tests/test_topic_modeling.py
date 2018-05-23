@@ -1,6 +1,6 @@
 # system import
-import sys
-sys.path.append('../libraries')
+import os
+os.chdir('news-article-nlp/libraries')
 
 # test imports
 import pickle

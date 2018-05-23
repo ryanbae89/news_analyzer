@@ -1,10 +1,6 @@
 import unittest
 import os
-pwd = os.getcwd()
-print(pwd)
 os.chdir('news-article-nlp/libraries')
-pwd = os.getcwd()
-print(pwd)
 import handler
 
 class TestHandler(unittest.TestCase):
