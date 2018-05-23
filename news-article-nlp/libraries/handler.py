@@ -9,7 +9,7 @@ import topic_modeling
 import configs
 import word_cloud_generator
 import sentiment_analyzer
-import get_recommended_articles as article_recommender # change this into import article_reommender
+import article_recommender # change this into import article_reommender
 
 class Handler():
 	"""
