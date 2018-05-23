@@ -1,6 +1,3 @@
-# system dependencis
-import os
-
 # standard
 import numpy as np
 import pandas as pd
@@ -9,7 +6,6 @@ import pandas as pd
 import guidedlda
 
 #  news-articles-nlp imports
-# import NYTimesArticleRetriever
 import text_processing 
 
 def get_vocab(dtm):
@@ -30,7 +26,7 @@ def get_vocab(dtm):
     else:
         raise ValueError('Please pass in a valid pandas dataframe.')
 
-def clean_topics(topics, vocab, word2id, bad_topics=None):
+def clean_topics(topics, vocab, word2id, bad_topics=[]):
     """ Cleans the seed topic words list.
              - Gets rid of undesired topics
              - Gets rid of words in topics that are not in corpus vocab
@@ -128,13 +124,15 @@ class TopicModeler(object):
         if isinstance(dtm, pd.DataFrame):
             dtm = np.array(dtm)
         if not isinstance(dtm, np.ndarray):
-            raise ValueError('please input a valid pandas dataframe or numpy array for dtm!')
+            raise ValueError('Please input a valid pandas dataframe or numpy array for dtm!')
         # fit LDA model
         if guided:
             if not type(seed_topics) == dict:
                 raise ValueError("Please enter a dictionary for seed_topics.")
-            if not type(seed_confidence) == float:
+            elif not type(seed_confidence) == float:
                 raise ValueError("Please enter a float for seed_confidence.")
+            elif self.n_topics < len(seed_topics):
+                raise ValueError("The number of topics must be greater than number of seed topics!")
             print("Guided LDA")
             model = guidedlda.GuidedLDA(n_topics=self.n_topics, n_iter=self.n_iter, 
                 random_state=self.random_state, refresh=self.refresh)

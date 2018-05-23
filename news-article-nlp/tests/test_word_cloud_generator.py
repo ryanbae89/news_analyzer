@@ -2,7 +2,7 @@
 Unit Tests for WordCloudGenerator
 """
 import sys
-sys.path.append('../libraries')
+sys.path.append('news-article-nlp/libraries')
 import unittest
 import word_cloud_generator
 import matplotlib.pyplot as plt

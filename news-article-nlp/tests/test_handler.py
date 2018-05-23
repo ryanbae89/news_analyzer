@@ -1,6 +1,6 @@
 import unittest
-import sys
-sys.path.append('../libraries')
+import os
+os.chdir('news-article-nlp/libraries')
 import handler
 
 class TestHandler(unittest.TestCase):
@@ -20,6 +20,8 @@ class TestHandler(unittest.TestCase):
 	def test_recommended_articles(self):
 		recommended_articles = self.handler.get_recommended_articles(query_article=self.query_article)
 		self.assertTrue(recommended_articles is not None)
+
+os.chdir('../..')
 
 if __name__ == '__main__':
     unittest.main()

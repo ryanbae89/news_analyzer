@@ -2,7 +2,7 @@
 Unit Tests for Sentiment Analyzer
 """
 import sys
-sys.path.append('../libraries')
+sys.path.append('news-article-nlp/libraries')
 import unittest
 import sentiment_analyzer
 import matplotlib.pyplot as plt
