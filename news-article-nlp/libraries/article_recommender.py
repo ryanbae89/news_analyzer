@@ -26,7 +26,6 @@ def join_process(index, article_corpus):
         Returns:
             selected_articles = five article titles based on topic relevance
     """
-
     selected_articles = article_corpus.iloc[index.tolist()[0]]
     return selected_articles['title']
 
