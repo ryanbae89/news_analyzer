@@ -17,11 +17,12 @@ install:
     - pip install -r requirements.txt
 
 before_script:
+    - python setup.py
     - flake8 news-article-nlp || echo "flake8 may have failed. Expand to see flake8 messages."
     - pylint news-article-nlp || echo "pylint may have failed. Expand to see pylint messages."
 
 script:
-    - coverage run -m unittest
+    - coverage run -m unittest discover news-article-nlp/tests
 
 after_success:
     - coverage report
