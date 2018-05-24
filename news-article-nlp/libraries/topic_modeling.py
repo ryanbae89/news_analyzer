@@ -6,7 +6,7 @@ import pandas as pd
 import guidedlda
 
 #  news-articles-nlp imports
-import text_processing 
+import text_processing
 
 def get_vocab(dtm):
     """ Creates corpus vocabulary list and word2id dict.
@@ -17,7 +17,7 @@ def get_vocab(dtm):
         Returns:
             vocab = list, list of corpus vocabulary
             word2id = dict, dictionary with word as key and unique id as value
-    """ 
+    """
     if isinstance(dtm, pd.DataFrame):
         vocab = list(dtm.columns)
         dtm = np.array(dtm)
@@ -48,7 +48,7 @@ def clean_topics(topics, vocab, word2id, bad_topics=[]):
                     topic.append(word)
             clean_topics.append(topic)
     return clean_topics
-       
+
 def get_seed_topics(topics, word2id):
     """ Creates seed topics dictionary for input into guidedlda.
 
@@ -62,7 +62,7 @@ def get_seed_topics(topics, word2id):
     for t_id, topic in enumerate(topics):
         for word in topic:
             seed_topics[word2id[word]] = t_id
-    return seed_topics 
+    return seed_topics
 
 def display_topics(n_words, model, vocab):
     """ Displays most relevant words in each topic.
@@ -84,21 +84,21 @@ class TopicModeler(object):
         """ Constructor
 
             Args:
-                n_topics = int, number of topics to run LDA on 
+                n_topics = int, number of topics to run LDA on
                 n_iter = int, number of iterations for LDA stopping condition
                 random_state = int, random seed for replicating results
-                refresh = int, 
+                refresh = int,
         """
         self.n_topics = n_topics
         self.n_iter = n_iter
         self.random_state = random_state
-        self.refresh = refresh   
+        self.refresh = refresh
         self.model = None
         if np.array([n_topics, n_iter, random_state, refresh]).dtype != int:
             raise ValueError('Inputs to TopicModeler must be non-negative integers!')
         if any(i < 0 for i in [n_topics, n_iter, random_state, refresh]):
             raise ValueError('Inputs to TopicModeler must be non-negative integers!')
-        
+
     def fit(self, dtm, seed_topics=None, seed_confidence=None):
         """ Fits topic model using guidedlda model.
 
@@ -134,8 +134,10 @@ class TopicModeler(object):
             elif self.n_topics < len(seed_topics):
                 raise ValueError("The number of topics must be greater than number of seed topics!")
             print("Guided LDA")
-            model = guidedlda.GuidedLDA(n_topics=self.n_topics, n_iter=self.n_iter, 
-                random_state=self.random_state, refresh=self.refresh)
+            model = guidedlda.GuidedLDA(n_topics=self.n_topics, 
+                                        n_iter=self.n_iter,
+                                        random_state=self.random_state, 
+                                        refresh=self.refresh)
             model._fit(dtm, seed_topics, seed_confidence)
         elif not guided:
             print("Regular LDA")
@@ -155,13 +157,13 @@ class TopicModelerGridSearch():
                 n_topics = list of ints, list of topic numbers for grid search
                 n_iter = int, number of iterations for LDA stopping condition
                 random_state = int, random seed for replicating results
-                refresh = int, 
+                refresh = int,
         """
         self.n_topics_list = n_topics_list
         self.n_iter = n_iter
         self.random_state = random_state
         self.refresh = refresh
-        self.model = None   
+        self.model = None
         self.loglikelihoods = None
 
     def gridsearch(self, dtm):
@@ -182,10 +184,10 @@ class TopicModelerGridSearch():
         ll_values = []
         for i, n_topics in enumerate(self.n_topics_list):
             print('fitting model with n_topics = {}...'.format(n_topics))
-            model = TopicModeler(n_topics=n_topics, n_iter=self.n_iter, 
+            model = TopicModeler(n_topics=n_topics, n_iter=self.n_iter,
                 random_state=self.random_state, refresh=self.refresh)
             model = model.fit(dtm)
-            if i == 0:        
+            if i == 0:
                 best_model = model
                 best_n_topics = n_topics
                 ll_values.append(best_model.loglikelihoods_[-1])
@@ -196,7 +198,3 @@ class TopicModelerGridSearch():
                 ll_values.append(model.loglikelihoods_[-1])
         self.model = best_model
         self.loglikelihoods = loglikelihoods
-
-
-
-

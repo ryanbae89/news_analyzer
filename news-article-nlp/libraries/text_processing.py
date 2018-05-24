@@ -22,8 +22,6 @@ import string
 
 # Standard imports
 import pandas as pd
-import numpy as np
-
 
 # NLTK imports
 from nltk import word_tokenize
@@ -206,7 +204,7 @@ class ArticlePreprocessor():
             vectorizer_output: output of sklearn's CountVectorizer.
         """
         tdm = pd.DataFrame(vectorizer_output.toarray().transpose(),
-                            index=self.vectorizer.get_feature_names())
+                           index=self.vectorizer.get_feature_names())
         dtm = tdm.transpose()
         return dtm
 

@@ -4,7 +4,7 @@ import numpy as np
 # Scikit-Learn imports
 from sklearn.neighbors import KDTree
 
-def knn_prediction(doc_topic_matrix,query_vector):
+def knn_prediction(doc_topic_matrix, query_vector):
     """ Generate indexes of articles that are close to query article in topic relevance
 
         Args:
@@ -15,7 +15,7 @@ def knn_prediction(doc_topic_matrix,query_vector):
     """
     tree = KDTree(doc_topic_matrix)
     dist, ind = tree.query(np.array(query_vector), k=5)
-    return(ind)
+    return ind
 
 def join_process(index, article_corpus):
     """ Joins index to article corpus to pull out relevant artcile's titles
@@ -41,8 +41,3 @@ def get_recommended_articles(doc_topic_matrix, query_vector, article_corpus):
     """
     index = knn_prediction(doc_topic_matrix, query_vector)
     return join_process(index, article_corpus)
-
-
-
-
-
