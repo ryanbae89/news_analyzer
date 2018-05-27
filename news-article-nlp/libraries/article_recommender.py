@@ -3,6 +3,7 @@
 Functions:
     knn_prediction: A function that perform KDTree function on topic matrix and query vector
     join_process: A function that joins the first 5 article index back to article corpus
+    get_recommended_articles: A function that combines knn_prediction and join_process
 
 """
 
