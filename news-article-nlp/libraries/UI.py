@@ -37,13 +37,13 @@ def make_dash_table(data_frame):
 app.layout = html.Div([
     html.H2(["News Articles Analyzer"],
             className="padded"),
-    dcc.Textarea(value="art photo picture performance theatre",
+    dcc.Textarea(value="trump White House government",
                  #placeholder = "Enter text / article here...",
                  style={'width': '100%'},
                  id='input-1-state'),
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
-    html.Div(id='output-state'),
-    html.Div(id='output-state2'),
+    #html.Div(id='output-state'),
+    #html.Div(id='output-state2'),
     html.Div([
         html.Div([
             html.H6(["Recommended Articles"],
@@ -68,18 +68,7 @@ app.layout = html.Div([
             html.Table(make_dash_table(pd.DataFrame(np.asarray([]))))
             ], id='top_topics', className="six columns")
     ], className="row ")
-], className="page")
-
-@app.callback(Output('output-state', 'children'),
-              [Input('submit-button', 'n_clicks')],
-              [State('input-1-state', 'value')])
-
-def update_output(n_clicks, input1):
-    """ Updates the text block. Used for debugging. """
-    return u'''
-        The Button has been pressed {} times,
-        Input 1 is "{}"
-    '''.format(n_clicks, input1)
+])#, className="page")
 
 # Recommended Articles Data
 @app.callback(Output('recommended_articles', 'children'),

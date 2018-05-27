@@ -36,24 +36,32 @@ class Handler():
 
     def get_topics(self, query_article):
         """
-        Processes query article for recommender system.
+        Processes query article for recommender system to get top query topics.
 
         Args:
             query_article = string, article or words being queried
         Returns:
             query_topics = list, top guided and all unguided topics distribution
         """
+        num_topics = 5
         # convert query article to doc-term-matrix
         query_dtm = self.preprocessor.transform(query_article)
         # join the query article doc-term-matrix with models
         query_guided_topics = self.guided_topic_model.transform(np.array(query_dtm))
         query_unguided_topics = self.unguided_topic_model.transform(np.array(query_dtm))
 
-        top_guided_topic_index = query_guided_topics.argsort()[0][-3:]
-        print(top_guided_topic_index)
-        print(type(top_guided_topic_index))
+        #filter and order topics and percentages
+        top_guided_topic_index = query_guided_topics.argsort()[0][-num_topics:]
+        guided_topics = np.asarray(configs.GUIDED_LDA_TOPICS)[top_guided_topic_index][::-1]
+        guided_probs = np.asarray(query_guided_topics[0][top_guided_topic_index])[::-1]
+        guided_probs = np.round(guided_probs*100, 1)
+        guided_probs = guided_probs
+
+        guided_lda_return = np.stack((guided_topics, guided_probs)).T
+
+
         # return the topic distribution of the query article for recommender
-        query_topics = [np.asarray(configs.GUIDED_LDA_TOPICS)[top_guided_topic_index],
+        query_topics = [guided_lda_return,
                         query_unguided_topics]
         return query_topics
 

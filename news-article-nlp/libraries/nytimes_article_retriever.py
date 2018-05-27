@@ -18,6 +18,7 @@ import numpy as np
 import configs
 import text_processing
 
+
 def get_nytimes_topic_words():
     """
         Main function to get the NYTimes topic seed words.
@@ -46,6 +47,8 @@ def get_nytimes_data(sections='all'):
     for section in sections:
         url = ('http://api.nytimes.com/svc/topstories/v2/'+ section +
                '.json?api-key=65daae448b694b07a1dca7feb0322778')
+               # 65daae448b694b07a1dca7feb0322778
+               # 2f87e82d4d404f3888ba7b17aff3bd94
         url_content = requests.get(url).content
         temp_data = pd.read_json(url_content)
         article_content = ""
@@ -82,5 +85,7 @@ def get_section_words(data):
         words = (dtm_normalized.loc[i, min_apps & min_probability].sort_values(ascending=False))
         category_name = list([data.loc[i, 0]])
         top_words = list(words.reset_index().iloc[:, 0])[0:15]
+        if category_name[0] in top_words:
+            top_words.remove(category_name[0])
         topic_seeds.append((category_name + top_words))
     return topic_seeds
