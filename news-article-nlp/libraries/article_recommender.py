@@ -1,3 +1,11 @@
+"""This module takes topic matrix with query article to return recommended articles
+
+Functions:
+    knn_prediction: A function that perform KDTree function on topic matrix and query vector
+    join_process: A function that joins the first 5 article index back to article corpus
+
+"""
+
 # Standard
 import numpy as np
 
@@ -11,11 +19,12 @@ def knn_prediction(doc_topic_matrix, query_vector):
             doc_topic_matrix = probability matrix generated from LDA model on articles corpus
             query_vector = probability vector generated from LDA model on user query article
         Returns:
+            dist = distance of the 5 articles in terms of topic relevance
             ind = index of closest 5 articles based on distance in topic relevance
     """
     tree = KDTree(doc_topic_matrix)
     dist, ind = tree.query(np.array(query_vector), k=5)
-    return ind
+    return dist, ind
 
 def join_process(index, article_corpus):
     """ Joins index to article corpus to pull out relevant artcile's titles
@@ -39,5 +48,5 @@ def get_recommended_articles(doc_topic_matrix, query_vector, article_corpus):
         Returns:
             selected_articles = five article titles based on topic relevance
     """
-    index = knn_prediction(doc_topic_matrix, query_vector)
+    index = knn_prediction(doc_topic_matrix, query_vector)[1]
     return join_process(index, article_corpus)
