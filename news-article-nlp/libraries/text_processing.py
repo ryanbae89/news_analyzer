@@ -73,7 +73,7 @@ def clean_article(text):
     table = str.maketrans('', '', string.punctuation)
     stripped = [w.translate(table) for w in tokens]
     words = [word for word in stripped if word.isalpha()]
-    stop_words = set(stopwords.words('english'))
+    stop_words = list(set(stopwords.words('english'))) + EXTRA_STOPWORDS
     words_list = [w for w in words if not w in stop_words]
     return words_list
 
