@@ -25,8 +25,8 @@ opts = dict(name='news-articles-nlp',
 
 if __name__ == '__main__':
     setup(**opts)
-    import nltk
-    nltk.download('punkt')
-    nltk.download('vader_lexicon')
-    nltk.download('stopwords')
-    nltk.download('wordnet')
+#    import nltk
+#    nltk.download('punkt')
+#    nltk.download('vader_lexicon')
+#    nltk.download('stopwords')
+#    nltk.download('wordnet')
