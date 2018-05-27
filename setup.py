@@ -1,9 +1,9 @@
 
 # Setup module for news-articles-nlp
 
-import os
-from setuptools import setup, find_packages
-PACKAGES = find_packages()
+#import os
+#from setuptools import setup, find_packages
+#PACKAGES = find_packages()
 
 opts = dict(name='news-articles-nlp',
             maintainer='',
@@ -23,10 +23,12 @@ opts = dict(name='news-articles-nlp',
             # requires="REQUIRES"
             )
 
-if __name__ == '__main__':
-    setup(**opts)
-#    import nltk
-#    nltk.download('punkt')
-#    nltk.download('vader_lexicon')
-#    nltk.download('stopwords')
-#    nltk.download('wordnet')
+#if __name__ == '__main__':
+#    setup(**opts)
+
+
+import nltk
+nltk.download('punkt')
+nltk.download('vader_lexicon')
+nltk.download('stopwords')
+nltk.download('wordnet')
