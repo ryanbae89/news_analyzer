@@ -11,8 +11,10 @@ Functions:
 #import os
 import unittest
 import numpy as np
+import sys
+sys.path.append('news-article-nlp/libraries')
 import article_recommender
-#os.chdir('news-article-nlp/libraries')
+
 
 
 class TestArticleRecommender(unittest.TestCase):

@@ -8,6 +8,7 @@ ready to be visualized in the UI.
 This class also persists the data models and corpus for continual access while the UI is running.
 """
 import pickle
+import sys
 
 #import knn_model_file
 import numpy as np
@@ -18,6 +19,7 @@ import configs
 import word_cloud_generator
 import sentiment_analyzer
 import article_recommender
+sys.path.append('news-article-nlp/libraries')
 
 class Handler():
     """

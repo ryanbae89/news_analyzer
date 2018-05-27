@@ -1,6 +1,8 @@
 import unittest
-import os
-os.chdir('news-article-nlp/libraries')
+import sys
+sys.path.append('news-article-nlp/libraries')
+# import 'news-article-nlp'
+# print(os.path.join(news-article-nlp.__path__[0]))
 import handler
 
 class TestHandler(unittest.TestCase):
@@ -8,6 +10,7 @@ class TestHandler(unittest.TestCase):
 	def setUp(self):
 		self.handler = handler.Handler()
 		self.query_article = 'SpaceX Launches Rocket'
+		self.path = 'news-article-nlp/libraries'
 
 	def test_wordcloud(self):
 		query_wordcloud = self.handler.get_word_cloud(query_article=self.query_article)
@@ -21,7 +24,6 @@ class TestHandler(unittest.TestCase):
 		recommended_articles = self.handler.get_recommended_articles(query_article=self.query_article)
 		self.assertTrue(recommended_articles is not None)
 
-os.chdir('../..')
 
 if __name__ == '__main__':
     unittest.main()
