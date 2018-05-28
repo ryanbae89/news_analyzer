@@ -23,7 +23,7 @@ RESOURCE_PATH = DIR_NAME + RESOURCE_FOLDER
 # change CORPUS_PATH as needed
 CORPUS_PATH = RESOURCE_PATH + "/" + "articles.csv"
 GUIDED_MODELER_PATH = RESOURCE_PATH + "/" + "guidedlda_model.pkl"
-UNGUIDED_MODELER_PATH = RESOURCE_PATH + "/" + "regularlda_model.pkl"
+UNGUIDED_MODELER_PATH = RESOURCE_PATH + "/" + "unguidedlda_model.pkl"
 PREPROCESSOR_PATH = RESOURCE_PATH + "/" + "preprocessor.pkl"
 GUIDED_LDA_TOPICS = ['arts', 'automobiles', 'books', 'business', 'fashion', 'food',
 					                'health', 'magazine', 'movies',
