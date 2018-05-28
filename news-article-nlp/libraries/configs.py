@@ -3,12 +3,25 @@ Config file
 
 Stores location to models and data used elsewhere.
 """
+
 import os
-DIR_NAME = os.path.dirname(os.path.realpath(__file__)).split("/")
-RESOURCE_PATH = "/".join(DIR_NAME[:-1]) + "/resources"
+
+def get_absolute_path():
+	dir = os.path.dirname(os.path.realpath(__file__))
+	if "/" in dir:
+		dir = dir.split("/")
+		apath = "/".join(dir[:-1]) + "/"
+	else:
+		dir = dir.split("\\")
+		apath = "\\".join(dir[:-1]) + "\\"
+	return apath
+
+
+DIR_NAME = get_absolute_path()
+RESOURCE_PATH = DIR_NAME + "resources"
 
 # change CORPUS_PATH as needed
-CORPUS_PATH = RESOURCE_PATH + "/" + "article1.csv"
+CORPUS_PATH = RESOURCE_PATH + "/" + "articles.csv"
 GUIDED_MODELER_PATH = RESOURCE_PATH + "/" + "guidedlda_model.pkl"
 UNGUIDED_MODELER_PATH = RESOURCE_PATH + "/" + "regularlda_model.pkl"
 PREPROCESSOR_PATH = RESOURCE_PATH + "/" + "preprocessor.pickle"
