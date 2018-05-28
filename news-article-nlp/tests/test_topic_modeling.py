@@ -36,7 +36,7 @@ class TestTopicModeling(unittest.TestCase):
 		self.assertTrue(len(self.word2id) == self.test_dtm.shape[1])
 		# check content
 		self.assertTrue(np.all(self.vocab == self.test_dtm.columns))
-		self.assertTrue(list(self.word2id.keys()) == self.vocab)
+		self.assertTrue(set(self.word2id.keys()) == set(self.vocab))
 
 	def test_clean_topics(self):
 		# check return type
