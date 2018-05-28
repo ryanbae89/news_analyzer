@@ -50,7 +50,7 @@ def get_files():
         list_of_tables.append(pd.read_csv(fpath), encoding = 'utf8')
 
     full_table = pd.concat(list_of_tables)
-    article_lengths = full_table[CONTENT_COLUMNs].apply(lambda x: len(x.split()))
+    article_lengths = full_table[CONTENT_COLUMN].apply(lambda x: len(x.split()))
     full_table = full_table[article_lengths > MIN_WORDS_IN_ARTICLE]
     full_table.to_csv(configs.CORPUS_PATH, index=False)
     return full_table
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         folder as csv files (data) or .pkl (objects).
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--download', dest='download_files', action='store_true', required=False)
+    parser.add_argument('--download_files', dest='download_files', action='store_true', required=False)
     parser.set_defaults(download_files=False)
     args = parser.parse_args()
     download_files = args.download_files
