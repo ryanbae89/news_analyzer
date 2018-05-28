@@ -1,5 +1,5 @@
 """
-Script for building full resources:
+Script for building resources:
 
 1. Downloading Kaggle data.
 2. Building preprocessor and pickling for later use.
@@ -11,45 +11,25 @@ import sys
 import requests
 import json
 import pickle
+import argparse
+
+import pandas as pd
+import numpy as np
 
 sys.path.append("../libraries")
 import configs
 
-# Module Constants
-KAGGLE DATASETS = ["articles1.csv", "articles2.csv", "articles3.csv"]
+## Module Constants
 KAGGLE_COMP = "all-the-news"
-content_column = "content"
-min_word_length_per_article = 200
-
-
-if __name__ == "__main__":
-    """ Main script
-    """
-    download_from_kaggle(KAGGLE_DATASETS, KAGGLE_COMP, kaggle_info)
-
-    fpaths = configs.fpaths
-    list_of_tables = []
-    for fpath in fpaths:
-        list_of_tables.append(pd.read_csv(fpath), encoding = 'utf8')
-
-    full_table = pd.concat(list_of_tables)
-
-    article_lengths = full_table[content_columns].apply(lambda x: len(x.split()))
-    full_table = full_table[article_lengths > min_word_length_per_article]
-
-    full_table.to_csv(configs.CORPUS_PATH, index=False)
-
-    # Fit preprocessor
-    processor = text_processing.ArticlePreprocessor()
-    processor.fit(full_table[content_column])
-    write_pickle(processor, configs.PREPROCESSOR_PATH)
-    dtm = processor.transform(full_table[content_column])
-
-
-
+CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
+RESOURCE_PATH = "../" + configs.RESOURCE_FOLDER
+FPATHS = [RESOURCE_PATH + "/" + name in CSV_NAMES]
+CONTENT_COLUMN = "content"
+MIN_WORDS_IN_ARTICLE = 200
 
 def write_pickle(data, filename):
     """ Function for writing a pickle file.
+
         Args:
         data: file to get pickled
         filename (str): filename ending in pkl or pickle.
@@ -57,39 +37,45 @@ def write_pickle(data, filename):
     with open(filename, 'w') as outfile:
         json.dump(data, outfile)
 
-
-def download_from_kaggle(data_sets, competition):
-    """Fetches data from Kaggle
-
-    Parameters
-    ----------
-    data_sets : (array)
-        list of dataset filenames on kaggle. (e.g. train.csv.zip)
-
-    competition : (string)
-        name of kaggle competition as it appears in url
-        (e.g. 'rossmann-store-sales')
-
+def get_files():
+    """ Function for downloading Kaggle files (see CSV_NAMES in module header),
+        removing short articles (potential ads), and combining into one
+        large table.
     """
-    kaggle_username = input("Enter Kaggle Username: ")
-    kaggle_password = input("Eter Kaggle Password: ")
-    kaggle_login_info = {"UserName": kaggle_username,
-                         "Password": kaggle_password}
+    os.system("kaggle datasets download -d \
+                snapcrack/all-the-news --force -p '{}'".format(RESOURCE_PATH))
 
-    kaggle_dataset_url = "https://www.kaggle.com/c/{}/download/".format(competition)
+    list_of_tables = []
+    for fpath in FPATHS:
+        list_of_tables.append(pd.read_csv(fpath), encoding = 'utf8')
 
+    full_table = pd.concat(list_of_tables)
+    article_lengths = full_table[CONTENT_COLUMNs].apply(lambda x: len(x.split()))
+    full_table = full_table[article_lengths > MIN_WORDS_IN_ARTICLE]
+    full_table.to_csv(configs.CORPUS_PATH, index=False)
+    return full_table
 
-    for data_set in data_sets:
-        data_url = "".join(kaggle_dataset_url+data_set)
-        print(data_url)
-        data_output = "".join(configs.RESOURCE_PATH+"/"+data_set)
-        # Attempts to download the CSV file. Gets rejected because we are not logged in.
-        r = requests.get(data_url)
-        # Login to Kaggle and retrieve the data.
-        r = requests.post(r.url, data=kaggle_login_info, stream=True)
-        # Writes the data to a local file one chunk at a time.
-        with open(data_output, 'wb') as f:
-            # Reads 512KB at a time into memory
-            for chunk in r.iter_content(chunk_size=(512 * 1024)):
-                if chunk: # filter out keep-alive new chunks
-                    f.write(chunk)
+if __name__ == "__main__":
+    """ Main script used to download Kaggle files, preprocessing data,
+        and builds topic models. All resources will be saved in the resources
+        folder as csv files (data) or .pkl (objects).
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--download', dest='download_files', action='store_true', required=False)
+    parser.set_defaults(download_files=False)
+    args = parser.parse_args()
+    download_files = args.download_files
+
+    # If corpus csv does not exist download and build.
+    if ~os.path.isfile(configs.CORPUS_PATH) or download_files:
+        full_table = get_files()
+    else:
+        full_table = pd.read_csv(configs.CORPUS_PATH)
+
+    # Fit preprocessor
+    processor = text_processing.ArticlePreprocessor()
+    processor.fit(full_table[CONTENT_COLUMN])
+    write_pickle(processor, configs.PREPROCESSOR_PATH)
+    dtm = processor.transform(full_table[CONTENT_COLUMN])
+
+    # Do yo thang Ryan

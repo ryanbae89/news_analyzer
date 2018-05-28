@@ -16,9 +16,9 @@ def get_absolute_path():
 		apath = "\\".join(dir[:-1]) + "\\"
 	return apath
 
-
+RESOURCE_FOLDER = "resources"
 DIR_NAME = get_absolute_path()
-RESOURCE_PATH = DIR_NAME + "resources"
+RESOURCE_PATH = DIR_NAME + RESOURCE_FOLDER
 
 # change CORPUS_PATH as needed
 CORPUS_PATH = RESOURCE_PATH + "/" + "articles.csv"
