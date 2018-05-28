@@ -18,14 +18,20 @@ import numpy as np
 
 sys.path.append("../libraries")
 import configs
+import text_processing
+import topic_modeling
 
 ## Module Constants
 KAGGLE_COMP = "all-the-news"
-CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
+# CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
+CSV_NAMES = ["articles.csv"]
 RESOURCE_PATH = "../" + configs.RESOURCE_FOLDER
-FPATHS = [RESOURCE_PATH + "/" + name in CSV_NAMES]
+FPATHS = [RESOURCE_PATH + "/" + name for name in CSV_NAMES]
 CONTENT_COLUMN = "content"
 MIN_WORDS_IN_ARTICLE = 200
+BAD_GUIDED_TOPICS = ['national', 'nyregion', 'obituaries']
+GUIDED_TOPICS_CONFIDENCE = 0.5
+N_ITERATIONS = 100
 
 def write_pickle(data, filename):
     """ Function for writing a pickle file.
@@ -47,7 +53,8 @@ def get_files():
 
     list_of_tables = []
     for fpath in FPATHS:
-        list_of_tables.append(pd.read_csv(fpath), encoding = 'utf8')
+        print(fpath)
+        list_of_tables.append(pd.read_csv(fpath, encoding='utf8'))
 
     full_table = pd.concat(list_of_tables)
     article_lengths = full_table[CONTENT_COLUMN].apply(lambda x: len(x.split()))
@@ -77,5 +84,28 @@ if __name__ == "__main__":
     processor.fit(full_table[CONTENT_COLUMN])
     write_pickle(processor, configs.PREPROCESSOR_PATH)
     dtm = processor.transform(full_table[CONTENT_COLUMN])
+    vocab, word2id = topic_modeling.get_vocab(dtm)
 
-    # Do yo thang Ryan
+    # Get nyt seed topics
+    topics_raw = nytimes_article_retriever.get_nytimes_topic_words() # to be changed 
+    topics_clean = topic_modeling.clean_topics(topics_raw, vocab, word2id, BAD_GUIDED_TOPICS)
+    seed_topics = topic_modeling.get_seed_topics(topics_clean, word2id)
+
+    # Fit guided LDA model
+    n_guided_topics = len(topics_clean)
+    guidedlda_model = topic_modeling.TopicModeler(n_guided_topics, N_ITERATIONS, RANDOM_STATE, REFRESH)
+    guidedlda_model = guidedlda_model.fit(dtm, seed_topics, GUIDED_TOPICS_CONFIDENCE)
+
+    # Fit unguided LDA model
+    n_unguided_topics = len(dtm)/100
+    unguidedlda_model = topic_modeling.TopicModeler(n_unguided_topics, N_ITERATIONS, RANDOM_STATE, REFRESH)
+    unguidedlda_model = unguidedlda_model.fit(dtm)
+
+    # Save results
+    unguidedlda_model.purge_extra_matrices() # unguided model is large, so get rid of extra matrices
+    with open(RESOURCE_PATH + 'guidedlda_model.pkl', 'wb') as file_handle:
+        pickle.dump(guidedlda_model, file_handle)
+    with open(RESOURCE_PATH + 'unguidedlda_model.pkl', 'wb') as file_handle:
+        pickle.dump(unguidedlda_model, file_handle)
+    with open(RESOURCE_PATH + "words.pkl", "wb") as file_handle:
+        pickle.dump(words, file_handle)
