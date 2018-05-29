@@ -35,7 +35,7 @@ def make_dash_table(data_frame):
 
 # Main layout
 app.layout = html.Div([
-    html.H2(["News Articles Analyzer"],
+    html.H2(["News Articles Recommender and Analyzer"],
             className="padded"),
     dcc.Textarea(value="trump White House government",
                  #placeholder = "Enter text / article here...",
