@@ -48,5 +48,6 @@ class WordCloudGeneratorTest(unittest.TestCase):
             "and inconsistent with our values.")
         self.assertTrue(my_image is not None)
 
+
 if __name__ == '__main__':
     unittest.main()
