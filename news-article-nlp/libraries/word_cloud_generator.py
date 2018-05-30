@@ -9,6 +9,7 @@ import base64
 from wordcloud import WordCloud, STOPWORDS
 STOP_WORDS = set(STOPWORDS)
 
+
 def generate_wordcloud(input_string):
     """
     A function that generates a Word Cloud based on the input string.
