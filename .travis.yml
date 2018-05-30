@@ -1,6 +1,7 @@
 language: python
 
 python:
+    - 3.4
     - 3.5
     - 3.6
 
@@ -17,11 +18,11 @@ install:
 
 before_script:
     - python setup.py
-    - flake8 news-article-nlp || echo "flake8 may have failed. Expand to see flake8 messages."
-    - pylint news-article-nlp || echo "pylint may have failed. Expand to see pylint messages."
+    - flake8 news_analyzer || echo "flake8 may have failed. Expand to see flake8 messages."
+    - pylint news_analyzer || echo "pylint may have failed. Expand to see pylint messages."
 
 script:
-    - coverage run -m unittest discover news-article-nlp/tests
+    - coverage run -m unittest discover news_analyzer/tests
 
 after_success:
     - coverage report
