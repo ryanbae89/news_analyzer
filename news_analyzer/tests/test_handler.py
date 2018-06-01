@@ -6,6 +6,7 @@ import sys
 sys.path.append('news_analyzer/libraries')
 import handler
 
+
 class TestHandler(unittest.TestCase):
     """
     Usage: handler.py unit-test.
@@ -21,14 +22,16 @@ class TestHandler(unittest.TestCase):
         """
         This method tests get_word_cloud method of handler.py.
         """
-        query_wordcloud = self.handler.get_word_cloud(query_article=self.query_article)
+        query_wordcloud = self.handler.get_word_cloud(
+            query_article=self.query_article)
         self.assertTrue(query_wordcloud is not None)
 
     def test_sentiment(self):
         """
         This method tests get_sentiment method of handler.py.
         """
-        query_sentiment = self.handler.get_sentiment(query_article=self.query_article)
+        query_sentiment = self.handler.get_sentiment(
+            query_article=self.query_article)
         self.assertTrue(isinstance(query_sentiment, dict))
 
     def test_recommended_articles(self):

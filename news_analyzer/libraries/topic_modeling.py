@@ -7,6 +7,7 @@ import pandas as pd
 # guidedlda imports
 import guidedlda
 
+
 def get_vocab(dtm):
     """ Creates corpus vocabulary list and word2id dict.
         Args:
@@ -23,6 +24,7 @@ def get_vocab(dtm):
         return vocab, word2id
     else:
         raise ValueError('Please pass in a valid pandas dataframe.')
+
 
 def clean_topics(topics, word2id, bad_topics=None):
     """ Cleans the seed topic words list.
@@ -48,6 +50,7 @@ def clean_topics(topics, word2id, bad_topics=None):
             cleaned_topics.append(topic)
     return cleaned_topics
 
+
 def get_seed_topics(topics, word2id):
     """ Creates seed topics dictionary for input into guidedlda.
         Args:
@@ -62,6 +65,7 @@ def get_seed_topics(topics, word2id):
             seed_topics[word2id[word]] = t_id
     return seed_topics
 
+
 def display_topics(n_words, model, vocab):
     """ Displays most relevant words in each topic.
         Args:
@@ -73,6 +77,7 @@ def display_topics(n_words, model, vocab):
     for i, topic_dist in enumerate(topic_word):
         topic_words = np.array(vocab)[np.argsort(topic_dist)][:-(n_words+1):-1]
         print('Topic {}: {}'.format(i, ' '.join(topic_words)))
+
 
 class TopicModeler(object):
     """ Class for creating the topic models from the articles corpus.
@@ -92,9 +97,11 @@ class TopicModeler(object):
         self.refresh = refresh
         self.model = None
         if np.array([n_topics, n_iter, random_state, refresh]).dtype != int:
-            raise ValueError('Inputs to TopicModeler must be non-negative integers!')
+            raise ValueError(
+                'Inputs to TopicModeler must be non-negative integers!')
         if any(i < 0 for i in [n_topics, n_iter, random_state, refresh]):
-            raise ValueError('Inputs to TopicModeler must be non-negative integers!')
+            raise ValueError(
+                'Inputs to TopicModeler must be non-negative integers!')
 
     def fit(self, dtm, seed_topics=None, seed_confidence=None):
         """ Fits topic model using guidedlda model.
@@ -119,7 +126,9 @@ class TopicModeler(object):
         if isinstance(dtm, pd.DataFrame):
             dtm = np.array(dtm)
         if not isinstance(dtm, np.ndarray):
-            raise ValueError('Please input a valid pandas dataframe or numpy array for dtm!')
+            raise ValueError(
+                'Please input a valid pandas dataframe or numpy array for dtm!'
+                )
         # fit LDA model
         if guided:
             if not isinstance(seed_topics, dict):
@@ -127,7 +136,9 @@ class TopicModeler(object):
             elif not isinstance(seed_confidence, float):
                 raise ValueError("Please enter a float for seed_confidence.")
             elif self.n_topics < len(seed_topics):
-                raise ValueError("The number of topics must be greater than number of seed topics!")
+                raise ValueError(
+                    "The number of topics must be greater than number of seed \
+                    topics!")
             print("Guided LDA")
             model = guidedlda.GuidedLDA(
                 n_topics=self.n_topics,
@@ -145,6 +156,7 @@ class TopicModeler(object):
             model.fit(dtm)
         self.model = model
         return model
+
 
 class TopicModelerGridSearch():
     """ Class for creating the topic models from the articles corpus.
@@ -168,15 +180,12 @@ class TopicModelerGridSearch():
             raise ValueError('You must enter a valid list of n_topics.')
 
     def gridsearch(self, dtm):
-        """ Does grid search over list of n_topics values and returns the best model.
-            The best model is the model with lowest abs(-loglikelihood).
+        """ Does grid search over list of n_topics values and returns
+            the best model.The best model is the model with lowest
+            abs(-loglikelihood).
 
             Args:
-                n_topics_list = list of n_topics
-
-            Returns:
-                model = guidedlda object, the lda model with best loglikelihood value
-                ll_values = list of loglikelihood values of each model during grid search
+                dtm = np.array or pd.DataFrame, document-term-matrix
         """
         # convert dtm to numpy array if input is in pandas
         if isinstance(dtm, pd.DataFrame):
