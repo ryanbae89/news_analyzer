@@ -164,6 +164,8 @@ class TopicModelerGridSearch():
         self.model = None
         self.loglikelihoods = None
         self.n_topics_opt = None
+        if not isinstance(n_topics_list, list):
+            raise ValueError('You must enter a valid list of n_topics.')
 
     def gridsearch(self, dtm):
         """ Does grid search over list of n_topics values and returns the best model.
@@ -196,7 +198,7 @@ class TopicModelerGridSearch():
             else:
                 if model.loglikelihoods_[-1] < best_model.loglikelihoods_[-1]:
                     best_model = model
-                    self.n_topics_opt = n_topics
+                    self.n_topics_opt = int(n_topics)
                 ll_values.append(model.loglikelihoods_[-1])
         self.model = best_model
         self.loglikelihoods = ll_values

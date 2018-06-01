@@ -102,5 +102,23 @@ class TestTopicModeling(unittest.TestCase):
             dtm=self.test_dtm, seed_topics=self.seed_topics, seed_confidence=0.5)
         self.assertTrue(isinstance(test_model, guidedlda.guidedlda.GuidedLDA))
 
+    def test_topic_modeler_gridsearch(self):
+        """ Tests for the TopicModelerGridSearch class.
+        """
+        # check n_topics_list input
+        with self.assertRaises(Exception) as context:
+            test_gridsearch = topic_modeling.TopicModelerGridSearch('2', 100, 0, 20)
+        self.assertTrue('You must enter a valid list of n_topics.' \
+            in str(context.exception))
+        # check return type
+        test_gridsearch = topic_modeling.TopicModelerGridSearch(
+            n_topics_list=[5, 10], n_iter=60, random_state=0, refresh=20)
+        test_gridsearch.gridsearch(self.test_dtm)
+        self.assertTrue(isinstance(test_gridsearch.model, guidedlda.guidedlda.GuidedLDA))
+        self.assertTrue(isinstance(test_gridsearch.loglikelihoods, list))
+        self.assertTrue(isinstance(test_gridsearch.n_topics_opt, int))
+        # check output lengths
+        self.assertTrue(len(test_gridsearch.n_topics_list) == len(test_gridsearch.loglikelihoods))
+
 if __name__ == '__main__':
     unittest.main()
