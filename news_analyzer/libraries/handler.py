@@ -9,17 +9,49 @@ This class also persists the data models and corpus for continual access while t
 """
 import pickle
 import sys
-
-#import knn_model_file
 import numpy as np
 import pandas as pd
-
 # Internal tools
 import configs
 import word_cloud_generator
 import sentiment_analyzer
 import article_recommender
 sys.path.append('news_analyzer/libraries')
+
+def get_corpus():
+    """
+    This method loads the articles corpus csv.
+    """
+    return pd.read_csv(configs.CORPUS_PATH)
+
+def get_preprocessor():
+    """
+    This method loads the preprocessed pickle file containing the dtm.
+    """
+    prep = load_pickled(configs.PREPROCESSOR_PATH)
+    return prep
+
+def get_guided_topic_modeler():
+    """
+    This method loads the guided LDA model.
+    """
+    modeler = load_pickled(configs.GUIDED_MODELER_PATH)
+    return modeler
+
+def get_unguided_topic_modeler():
+    """
+    This method loads the unguided LDA model.
+    """
+    modeler = load_pickled(configs.UNGUIDED_MODELER_PATH)
+    return modeler
+
+def load_pickled(filename):
+    """
+    This function loads pickled files.
+    """
+    with open(filename, "rb") as input_file:
+        object = pickle.load(input_file)
+    return object
 
 class Handler():
     """
@@ -30,11 +62,10 @@ class Handler():
         Initializer for handler class. This function loads the models and creates all
         objects needed to do analysis/visualization.
         """
-        loader = ResourceLoader()
-        self.guided_topic_model = loader.get_guided_topic_modeler()
-        self.unguided_topic_model = loader.get_unguided_topic_modeler()
-        self.preprocessor = loader.get_preprocessor()
-        self.corpus = loader.get_corpus()
+        self.guided_topic_model = get_guided_topic_modeler()
+        self.unguided_topic_model = get_unguided_topic_modeler()
+        self.preprocessor = get_preprocessor()
+        self.corpus = get_corpus()
 
     def get_topics(self, query_article):
         """
@@ -105,24 +136,3 @@ class Handler():
         """
         wordcloud = word_cloud_generator.generate_wordcloud(query_article)
         return wordcloud
-
-class ResourceLoader():
-    def get_corpus(self):
-        return pd.read_csv(configs.CORPUS_PATH)
-
-    def get_preprocessor(self):
-        prep = load_pickled(configs.PREPROCESSOR_PATH)
-        return prep
-
-    def get_guided_topic_modeler(self):
-        modeler = load_pickled(configs.GUIDED_MODELER_PATH)
-        return modeler
-
-    def get_unguided_topic_modeler(self):
-        modeler = load_pickled(configs.UNGUIDED_MODELER_PATH)
-        return modeler
-
-def load_pickled(filename):
-    with open(filename, "rb") as input_file:
-        object = pickle.load(input_file)
-    return object

@@ -1,16 +1,14 @@
+"""
+This module is used to create the topic models from the corpus.
+"""
 # standard
 import numpy as np
 import pandas as pd
-
 # guidedlda imports
 import guidedlda
 
-#  news-articles-nlp imports
-import text_processing
-
 def get_vocab(dtm):
     """ Creates corpus vocabulary list and word2id dict.
-
         Args:
             dtm = pandas dataframe, document-term-matrix of corpus
                     output from text_processing.get_dtm()
@@ -26,11 +24,10 @@ def get_vocab(dtm):
     else:
         raise ValueError('Please pass in a valid pandas dataframe.')
 
-def clean_topics(topics, vocab, word2id, bad_topics=[]):
+def clean_topics(topics, word2id, bad_topics=None):
     """ Cleans the seed topic words list.
-             - Gets rid of undesired topics
-             - Gets rid of words in topics that are not in corpus vocab
-
+        - Gets rid of undesired topics
+        - Gets rid of words in topics that are not in corpus vocab
         Args:
             topics = list, list of lsits containing topic words (dirty)
             vocab = list, list of corpus vocabulary
@@ -39,19 +36,20 @@ def clean_topics(topics, vocab, word2id, bad_topics=[]):
         Returns:
             clean_topics = list, list of lists containing topic words (clean)
     """
-    clean_topics = []
-    for i, words in enumerate(topics):
+    if bad_topics is None:
+        return topics
+    cleaned_topics = []
+    for words in topics:
         topic = []
         if words[0] not in bad_topics:
             for word in words:
                 if word in word2id:
                     topic.append(word)
-            clean_topics.append(topic)
-    return clean_topics
+            cleaned_topics.append(topic)
+    return cleaned_topics
 
 def get_seed_topics(topics, word2id):
     """ Creates seed topics dictionary for input into guidedlda.
-
         Args:
             topics = list, list of seed words for each topic
             word2id = dict, dictionary with word as key and unique id as value
@@ -66,7 +64,6 @@ def get_seed_topics(topics, word2id):
 
 def display_topics(n_words, model, vocab):
     """ Displays most relevant words in each topic.
-
         Args:
             n_words = int, number of words to display
             model = guidedlda model object
@@ -101,7 +98,6 @@ class TopicModeler(object):
 
     def fit(self, dtm, seed_topics=None, seed_confidence=None):
         """ Fits topic model using guidedlda model.
-
             Args:
                 dtm = numpy array or pandas dataframe, document-term-matrix
                 guided = boolean, guided LDA or regular LDA
@@ -109,17 +105,16 @@ class TopicModeler(object):
                 seed_confidence = float, confidence of seed_topics
                 n_topics = int, number of topics to model
                 n_iter = int, number of iterations
-                random_state = int, 
-                refresh = int, 
-
+                random_state = int,
+                refresh = int,
             Returns:
                 model = guidedlda object, fitted topic model
         """
         # check if guided
-        if (seed_topics is not None) and (seed_confidence is not None):
-            guided = True
-        else:
+        if (bool(seed_topics) is False) and (bool(seed_confidence) is False):
             guided = False
+        else:
+            guided = True
         # convert dtm to numpy array if input is in pandas
         if isinstance(dtm, pd.DataFrame):
             dtm = np.array(dtm)
@@ -127,22 +122,26 @@ class TopicModeler(object):
             raise ValueError('Please input a valid pandas dataframe or numpy array for dtm!')
         # fit LDA model
         if guided:
-            if not type(seed_topics) == dict:
+            if not isinstance(seed_topics, dict):
                 raise ValueError("Please enter a dictionary for seed_topics.")
-            elif not type(seed_confidence) == float:
+            elif not isinstance(seed_confidence, float):
                 raise ValueError("Please enter a float for seed_confidence.")
             elif self.n_topics < len(seed_topics):
                 raise ValueError("The number of topics must be greater than number of seed topics!")
             print("Guided LDA")
-            model = guidedlda.GuidedLDA(n_topics=self.n_topics, 
-                                        n_iter=self.n_iter,
-                                        random_state=self.random_state, 
-                                        refresh=self.refresh)
+            model = guidedlda.GuidedLDA(
+                n_topics=self.n_topics,
+                n_iter=self.n_iter,
+                random_state=self.random_state,
+                refresh=self.refresh)
             model._fit(dtm, seed_topics, seed_confidence)
         elif not guided:
             print("Regular LDA")
-            model = guidedlda.GuidedLDA(n_topics=self.n_topics, n_iter=self.n_iter, 
-                random_state=self.random_state, refresh=self.refresh)
+            model = guidedlda.GuidedLDA(
+                n_topics=self.n_topics,
+                n_iter=self.n_iter,
+                random_state=self.random_state,
+                refresh=self.refresh)
             model.fit(dtm)
         self.model = model
         return model
@@ -152,7 +151,6 @@ class TopicModelerGridSearch():
     """
     def __init__(self, n_topics_list, n_iter, random_state, refresh):
         """ Constructor
-
             Args:
                 n_topics = list of ints, list of topic numbers for grid search
                 n_iter = int, number of iterations for LDA stopping condition
@@ -165,6 +163,7 @@ class TopicModelerGridSearch():
         self.refresh = refresh
         self.model = None
         self.loglikelihoods = None
+        self.n_topics_opt = None
 
     def gridsearch(self, dtm):
         """ Does grid search over list of n_topics values and returns the best model.
@@ -184,17 +183,20 @@ class TopicModelerGridSearch():
         ll_values = []
         for i, n_topics in enumerate(self.n_topics_list):
             print('fitting model with n_topics = {}...'.format(n_topics))
-            model = TopicModeler(n_topics=n_topics, n_iter=self.n_iter,
-                random_state=self.random_state, refresh=self.refresh)
+            model = TopicModeler(
+                n_topics=n_topics,
+                n_iter=self.n_iter,
+                random_state=self.random_state,
+                refresh=self.refresh)
             model = model.fit(dtm)
             if i == 0:
                 best_model = model
-                best_n_topics = n_topics
+                self.n_topics_opt = n_topics
                 ll_values.append(best_model.loglikelihoods_[-1])
             else:
                 if model.loglikelihoods_[-1] < best_model.loglikelihoods_[-1]:
                     best_model = model
-                    best_n_topics = n_topics
+                    self.n_topics_opt = n_topics
                 ll_values.append(model.loglikelihoods_[-1])
         self.model = best_model
-        self.loglikelihoods = loglikelihoods
+        self.loglikelihoods = ll_values
