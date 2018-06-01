@@ -137,8 +137,7 @@ class TopicModeler(object):
                 raise ValueError("Please enter a float for seed_confidence.")
             elif self.n_topics < len(seed_topics):
                 raise ValueError(
-                    "The number of topics must be greater than number of seed \
-                    topics!")
+                    "n_topics must be greater than number of seed topics!")
             print("Guided LDA")
             model = guidedlda.GuidedLDA(
                 n_topics=self.n_topics,

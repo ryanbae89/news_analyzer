@@ -106,7 +106,7 @@ class TestTopicModeling(unittest.TestCase):
                 seed_topics=self.seed_topics,
                 seed_confidence=0.5)
         self.assertTrue(
-            'The number of topics must be greater than number of seed topics!'
+            'n_topics must be greater than number of seed topics!'
             in str(context.exception))
         # check return type (guided case)
         test_modeler = topic_modeling.TopicModeler(
