@@ -29,8 +29,8 @@ def generate_wordcloud(input_string):
         scale=3,
         random_state=1
     ).generate(str(input_string))
-    wordcloud.to_file("temp.png")
-    wordcloud_png = open("temp.png", 'rb').read()
+    wordcloud.to_file("temp_wordcloud.png")
+    wordcloud_png = open("temp_wordcloud.png", 'rb').read()
     encoded_image = base64.b64encode(wordcloud_png)
 
     return encoded_image

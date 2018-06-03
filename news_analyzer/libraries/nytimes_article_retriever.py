@@ -56,23 +56,22 @@ def aggregate_data():
             by category
     """
     directory = '../data/'
-    data = None
+    data = pd.DataFrame(np.asarray(['business', '']).reshape(-1, 2))
     for file in os.listdir(directory):
         if file.startswith('NYtimes_'):
-            if data is None:
-                data = pd.read_csv(directory+file).iloc[:, 1:]
-            else:
-                data_i = pd.read_csv(directory+file).iloc[:, 1:]
-                for i in range(len(data_i)):
-                    if data_i.iloc[i, 0] in configs.GUIDED_LDA_TOPICS:
-                        if data_i.iloc[i, 0] in list(data.iloc[:, 0]):
-                            loc = list(data.iloc[:, 0]).index(data_i.iloc[i, 0])
-                            old_string = str(data.iloc[loc, 1])
-                            new_string = str(data_i.iloc[i, 1])
-                            data.iloc[loc, 1] = old_string + new_string
-                        else:
-                            data.append([data_i.iloc[i, 0], data_i.iloc[i, 1]])
-    print("categories",data[:,0])
+            datai = pd.read_csv(directory+file).iloc[:, 1:]
+            for i in range(len(datai)):
+                if datai.iloc[i, 0] in configs.GUIDED_LDA_TOPICS:
+                    if datai.iloc[i, 0] in list(data.iloc[:, 0]):
+                        loc = list(data.iloc[:, 0]).index(datai.iloc[i, 0])
+                        old_string = str(data.iloc[loc, 1])
+                        new_string = str(datai.iloc[i, 1])
+                        data.iloc[loc, 1] = old_string + new_string
+                    else:
+                        data = data.append(
+                            pd.DataFrame(
+                                np.asarray([datai.iloc[i, 0],
+                                            datai.iloc[i, 1]]).reshape(-1, 2)))
     return data
 
 
@@ -96,6 +95,13 @@ def get_nytimes_data(sections='all'):
         # 65daae448b694b07a1dca7feb0322778
         # 2f87e82d4d404f3888ba7b17aff3bd94
         url_content = requests.get(url).content
+        try:
+            temp_data = pd.read_json(url_content)
+        except:
+            # Failed to import new data.
+            empty_df = pd.DataFrame(np.asarray([]).reshape(-1, 2))
+            return empty_df
+
         temp_data = pd.read_json(url_content)
         article_content = ""
         # merge articles together
@@ -106,6 +112,7 @@ def get_nytimes_data(sections='all'):
         nytimes_data.append([section, article_content])
 
     nytimes_data = pd.DataFrame(np.asarray(nytimes_data))
+    # save the dataframe so it can be used to create aggregated seed words
     nytimes_data.to_csv("../data/NYtimes_data_" +
                         datetime.datetime.now().strftime("%Y%m%d") +
                         ".csv")
@@ -124,8 +131,11 @@ def get_section_words(data):
             sections.
     """
     data = pd.DataFrame(np.asarray(data))
+    if data.shape[0] <= 2:
+        return list()
+
     processor = text_processing.ArticlePreprocessor(min_df=0)
-    article_dtm = processor.get_dtm(series_of_articles=data.loc[:, 1])
+    article_dtm = processor.get_dtm(series_of_articles=data.iloc[:, 1])
 
     topic_seeds = []
     dtm_normalized = article_dtm**2 / np.sum(article_dtm, axis=0)
