@@ -4,9 +4,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)
 
 ## Background  
-> #todo: Add context (1-2 paragraphs)  
+ 
+ Conventional news recommendation systems use a small set of keywords to identify the top recommended articles to users based on keywords frequency. We built upon this framework by enabling users to find recommended articles by providing an entire news article. The recommendation process uses article topics to evaluate which articles to recommended. 
 
-  
+Our system highlights topic insights through two different models: an unguided LDA for identifying topic recommended articles and a guided LDA with seed words from NYTimes to show interpretable topics. Our system also shows sentiment information and word cloud that summarize the query article for the user.
+
+
 > #todo: Add screenshot of UI    
   
 NARA does 3 things:
@@ -34,7 +37,10 @@ https://www.kaggle.com/snapcrack/all-the-news
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. 
 
-> #todo: Add info about 2nd data source  
+The New York Times API:
+https://developer.nytimes.com
+
+We used labelled article information from the New York Times to seed words for the guided LDA. We aggregated and analyzed the article titles, summaries and categories from a series of days to generate the list of seed words.
 
 
 ## Component Design  
