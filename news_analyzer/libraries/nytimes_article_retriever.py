@@ -36,10 +36,12 @@ def get_nytimes_topic_words(get_new_data=False):
         data = get_nytimes_data('all')
         data = aggregate_data()
         topic_seeds = get_section_words(data)
-        with open('news_analyzer/data/aggregated_seed_words.txt', 'w') as open_file:
+        with open('news_analyzer/data/aggregated_seed_words.txt',
+                  'w') as open_file:
             open_file.write(json.dumps(topic_seeds))
     else:
-        with open('news_analyzer/data/aggregated_seed_words.txt', 'r') as open_file:
+        with open('news_analyzer/data/aggregated_seed_words.txt',
+                  'r') as open_file:
             topic_seeds = json.loads(open_file.read())
     return topic_seeds
 
