@@ -29,31 +29,17 @@ For more details, please see: [ComponentDesign.md](doc/ComponentDesign.md)
 
 ## Module Structure
 
-## User Interface
 
-## Preprocessor
+## Team:WeReadTheNews
+University of Washington  
+MS Data Science  
+DATA 515 Software Design for Data Science  
+Spring 2018  
 
-## Topic Modeler
-
-Topic modeling is done using Latent Dirichlet Allocation. 2 models are created for the recommender.
-
-* Guided Model: 17 topics, hand picked for interpretation and topic tags
-* Unguided Model: 1400 topics, LDA algorithm picks these, used for recommender
-
-## Recommender
-
-## Sentiment Analyzer 
-
-## WeReadTheNews
-University of Washington 
-MS Data Science
-DATA 515 Software Design for Data Science
-Spring 2018
-
-Team members  
+Team members:  
  * [Ryan Bae](http://www.linkedin.com/in/ryanbae89)  
- * Crystal Ding  
- * Charles Duze  
- * Mohammed Helal  
- * Paul Wright   
+ * [Crystal Ding] (https://www.linkedin.com/in/yumeng-crystal-ding) 
+ * [Charles Duze] (https://www.linkedin.com/in/charlesduze)  
+ * [Mohammed Helal] (https://www.linkedin.com/in/mohammed-helal-78969566)  
+ * [Paul Wright] (https://www.linkedin.com/in/paulcharleswright)   
  
