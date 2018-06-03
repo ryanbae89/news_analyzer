@@ -23,6 +23,10 @@ https://www.kaggle.com/snapcrack/all-the-news
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. 
 
+## Component Design  
+![ComponentDesignFlowChart](doc/news-nlp-flowchart-2.png?raw=true)  
+For more details, please see: [ComponentDesign.md](doc/ComponentDesign.md)
+
 ## Module Structure
 
 ## User Interface
@@ -47,7 +51,7 @@ DATA 515 Software Design for Data Science
 Spring 2018
 
 Team members  
- * [Ryan Bae](www.linkedin.com/in/ryanbae89)  
+ * [Ryan Bae](http://www.linkedin.com/in/ryanbae89)  
  * Crystal Ding  
  * Charles Duze  
  * Mohammed Helal  
