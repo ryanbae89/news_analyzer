@@ -8,3 +8,5 @@ scikit-learn
 dash
 kaggle
 dash_renderer
+dash_core_components
+dash_html_components
