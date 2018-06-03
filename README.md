@@ -26,9 +26,27 @@ How does it work?
 
 *For more details, please see*: [FunctionalDesign.md](doc/FunctionalDesign.md)
 
-## Examples  
-> #todo: Need content  
+## Installation
 
+First clone the repo in your local directory. Then in the repo root directory, run the set up file to install the dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+Now, run the `setup.py` file as following to download other data dependencies:
+
+```
+python setup.py build 
+``` 
+
+Now to run the user interface to start using NARA.
+
+```
+python path_to_libraries/user_interface.py
+```
+
+Copy the url that shows up in your command line to your browser to start the UI.
 
 ## Data
 
