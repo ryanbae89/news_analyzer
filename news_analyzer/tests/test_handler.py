@@ -3,7 +3,7 @@ This module performs unittest on handler module.
 """
 import unittest
 import sys
-sys.path.append('news_analyzer/libraries')
+sys.path.append('../libraries')
 import handler
 
 
