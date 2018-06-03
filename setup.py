@@ -13,7 +13,7 @@ opts = dict(
     author_email='rbae@uw.edu',
     description='National news articles recommender and analyzer using LDA',
     packages=PACKAGES,
-    package_data={'news_analyzer': ['data/*', 'tests/test_resources']}
+    package_data={'news_analyzer': ['resources/*', 'tests/test_resources']}
 
 )
 
