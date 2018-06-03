@@ -36,10 +36,10 @@ def get_nytimes_topic_words(get_new_data=False):
         data = get_nytimes_data('all')
         data = aggregate_data()
         topic_seeds = get_section_words(data)
-        with open('../data/aggregated_seed_words.txt', 'w') as open_file:
+        with open('news_analyzer/data/aggregated_seed_words.txt', 'w') as open_file:
             open_file.write(json.dumps(topic_seeds))
     else:
-        with open('../data/aggregated_seed_words.txt', 'r') as open_file:
+        with open('news_analyzer/data/aggregated_seed_words.txt', 'r') as open_file:
             topic_seeds = json.loads(open_file.read())
     return topic_seeds
 
@@ -55,7 +55,7 @@ def aggregate_data():
             Data: a list of lists. The contents of all queries aggregated
             by category
     """
-    directory = '../data/'
+    directory = 'news_analyzer/data/'
     data = pd.DataFrame(np.asarray(['business', '']).reshape(-1, 2))
     for file in os.listdir(directory):
         if file.startswith('NYtimes_'):
@@ -113,7 +113,7 @@ def get_nytimes_data(sections='all'):
 
     nytimes_data = pd.DataFrame(np.asarray(nytimes_data))
     # save the dataframe so it can be used to create aggregated seed words
-    nytimes_data.to_csv("../data/NYtimes_data_" +
+    nytimes_data.to_csv("news_analyzer/data/NYtimes_data_" +
                         datetime.datetime.now().strftime("%Y%m%d") +
                         ".csv")
     return nytimes_data
