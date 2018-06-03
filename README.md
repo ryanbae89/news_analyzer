@@ -6,6 +6,9 @@
 ## Background  
 > #todo: Add context (1-2 paragraphs)  
 
+  
+> #todo: Add screenshot of UI    
+  
 NARA does 3 things:
 * Recommends news articles based on topic relevance
 * Analyzes sentiment of news articles
@@ -18,8 +21,7 @@ How does it work?
 * Presents sentiment analysis based on number of positive/negative/neutral sentences in input
 * Visualizes query article using word cloud
 
-> #todo: Add screenshot of UI    
-  
+*For more details, please see*: [FunctionalDesign.md](doc/FunctionalDesign.md)
 
 ## Examples  
 > #todo: Need content  
