@@ -7,3 +7,4 @@ guidedlda
 scikit-learn
 dash
 kaggle
+dash_renderer
