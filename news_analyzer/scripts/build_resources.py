@@ -23,8 +23,8 @@ import topic_modeling
 
 ## Module Constants
 KAGGLE_COMP = "all-the-news"
-# CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
-CSV_NAMES = ["articles.csv"]
+CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
+#CSV_NAMES = ["articles.csv"]
 RESOURCE_PATH = "../" + configs.RESOURCE_FOLDER
 FPATHS = [RESOURCE_PATH + "/" + name for name in CSV_NAMES]
 CONTENT_COLUMN = "content"
@@ -33,23 +33,13 @@ BAD_GUIDED_TOPICS = ['national', 'nyregion', 'obituaries']
 GUIDED_TOPICS_CONFIDENCE = 0.5
 N_ITERATIONS = 100
 
-def write_pickle(data, filename):
-    """ Function for writing a pickle file.
-
-        Args:
-        data: file to get pickled
-        filename (str): filename ending in pkl or pickle.
-    """
-    with open(filename, 'w') as outfile:
-        json.dump(data, outfile)
-
 def get_files():
     """ Function for downloading Kaggle files (see CSV_NAMES in module header),
         removing short articles (potential ads), and combining into one
         large table.
     """
     os.system("kaggle datasets download -d \
-                snapcrack/all-the-news --force -p '{}'".format(RESOURCE_PATH))
+                snapcrack/all-the-news --force -p '{}'".format(configs.RESOURCE_PATH))
 
     list_of_tables = []
     for fpath in FPATHS:
@@ -74,7 +64,8 @@ if __name__ == "__main__":
     download_files = args.download_files
 
     # If corpus csv does not exist download and build.
-    if ~os.path.isfile(configs.CORPUS_PATH) or download_files:
+    import pdb; pdb.set_trace()
+    if not os.path.isfile(configs.CORPUS_PATH) or download_files:
         full_table = get_files()
     else:
         full_table = pd.read_csv(configs.CORPUS_PATH)
@@ -82,12 +73,13 @@ if __name__ == "__main__":
     # Fit preprocessor
     processor = text_processing.ArticlePreprocessor()
     processor.fit(full_table[CONTENT_COLUMN])
-    write_pickle(processor, configs.PREPROCESSOR_PATH)
+    with open(configs.PREPROCESSOR_PATH, 'wb') as file_handle:
+        pickle.dump(processor, file_handle)
     dtm = processor.transform(full_table[CONTENT_COLUMN])
     vocab, word2id = topic_modeling.get_vocab(dtm)
 
     # Get nyt seed topics
-    topics_raw = nytimes_article_retriever.get_nytimes_topic_words() # to be changed 
+    topics_raw = nytimes_article_retriever.get_nytimes_topic_words() # to be changed
     topics_clean = topic_modeling.clean_topics(topics_raw, vocab, word2id, BAD_GUIDED_TOPICS)
     seed_topics = topic_modeling.get_seed_topics(topics_clean, word2id)
 
