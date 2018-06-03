@@ -4,6 +4,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)
 
 ## Background  
+> #todo: Add context (1-2 paragraphs)  
+
+  
+> #todo: Add screenshot of UI    
+  
 NARA does 3 things:
 * Recommends news articles based on topic relevance
 * Analyzes sentiment of news articles
@@ -16,6 +21,12 @@ How does it work?
 * Presents sentiment analysis based on number of positive/negative/neutral sentences in input
 * Visualizes query article using word cloud
 
+*For more details, please see*: [FunctionalDesign.md](doc/FunctionalDesign.md)
+
+## Examples  
+> #todo: Need content  
+
+
 ## Data
 
 The corpus comes from Kaggle dataset:
@@ -23,33 +34,29 @@ https://www.kaggle.com/snapcrack/all-the-news
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. 
 
-## Module Structure
+> #todo: Add info about 2nd data source  
 
-## User Interface
 
-## Preprocessor
+## Component Design  
+![ComponentDesignFlowChart](doc/news-nlp-flowchart-2.png?raw=true)  
+*For more details, please see*: [ComponentDesign.md](doc/ComponentDesign.md)
 
-## Topic Modeler
+## Directory Structure
+> #todo: Need content (run 'tree')
 
-Topic modeling is done using Latent Dirichlet Allocation. 2 models are created for the recommender.
+## Prerequistes and Setup  
+> #todo: Need content  
 
-* Guided Model: 17 topics, hand picked for interpretation and topic tags
-* Unguided Model: 1400 topics, LDA algorithm picks these, used for recommender
 
-## Recommender
+## Team:WeReadTheNews
+MS Data Science, University of Washington  
+DATA 515 Software Design for Data Science (Spring 2018)  
 
-## Sentiment Analyzer 
+Team members:  
+ * [Ryan Bae](http://www.linkedin.com/in/ryanbae89)    
+ * [Crystal Ding](https://www.linkedin.com/in/yumeng-crystal-ding)  
+ * [Charles Duze](https://www.linkedin.com/in/charlesduze)    
+ * [Mohammed Helal](https://www.linkedin.com/in/mohammed-helal-78969566)   
+ * [Paul Wright](https://www.linkedin.com/in/paulcharleswright)     
 
-## WeReadTheNews
-University of Washington 
-MS Data Science
-DATA 515 Software Design for Data Science
-Spring 2018
-
-Team members  
- * [Ryan Bae](www.linkedin.com/in/ryanbae89)  
- * Crystal Ding  
- * Charles Duze  
- * Mohammed Helal  
- * Paul Wright   
  
