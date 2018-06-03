@@ -52,8 +52,9 @@ DATA 515 Software Design for Data Science (Spring 2018)
 
 Team members:  
  * [Ryan Bae](http://www.linkedin.com/in/ryanbae89)  
- * [Crystal Ding] (https://www.linkedin.com/in/yumeng-crystal-ding) 
- * [Charles Duze] (https://www.linkedin.com/in/charlesduze)  
- * [Mohammed Helal] (https://www.linkedin.com/in/mohammed-helal-78969566)  
- * [Paul Wright] (https://www.linkedin.com/in/paulcharleswright)   
+ * [Crystal Ding] (https://www.linkedin.com/in/yumeng-crystal-ding)  
+ * [Charles Duze] (https://www.linkedin.com/in/charlesduze)    
+ * [Mohammed Helal] (https://www.linkedin.com/in/mohammed-helal-78969566)   
+ * [Paul Wright] (https://www.linkedin.com/in/paulcharleswright)     
+
  
