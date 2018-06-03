@@ -10,6 +10,7 @@ opts = dict(
     url='https://github.com/heybaebae/news_analyzer',
     license='MIT',
     author='WeReadTheNews',
+    author_email='rbae@uw.edu',
     description='National news articles recommender and analyzer using LDA',
     packages=PACKAGES,
     package_data={'news_analyzer': ['data/*', 'tests/test_resources']}
