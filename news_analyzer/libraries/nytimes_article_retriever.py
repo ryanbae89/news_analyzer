@@ -1,14 +1,18 @@
-""" Module for reading in an analyzing NYTimes article data.
+""" Module for reading in, saving and analyzing NYTimes article data.
 
 To get the NYTimes topic seeds, run code similar to the following:
 
     import NYTimesArticleRetriever
     print(NYTimesArticleRetriever.get_nytimes_topic_words())
 
+This module keeps temporary data in the data folder including the most recent aggregated seed
+words and daily NYTimes data.
 """
 
 # System dependencies
 import datetime
+import json
+import os
 import requests
 
 # Standard
@@ -19,16 +23,52 @@ import configs
 import text_processing
 
 
-def get_nytimes_topic_words():
+
+def get_nytimes_topic_words(get_new_data=False):
     """
         Main function to get the NYTimes topic seed words.
+        Args:
+            get_new_data: boolean flag for whether to pull new NYTimes data.
         Returns:
-        topic_seeds: A list of lists with topic seed words. The first item of each list is the
-        topic name.
+            topic_seeds: A list of lists with topic seed words. The first item of each list is the
+            topic name.
     """
-    data = get_nytimes_data()
-    topic_seeds = get_section_words(data)
+    if get_new_data:
+        data = get_nytimes_data()
+        data = aggregate_data()
+        topic_seeds = get_section_words(data)
+        with open('../data/aggregated_seed_words.txt', 'w') as open_file:
+            open_file.write(json.dumps(topic_seeds))
+    else:
+        with open('../data/aggregated_seed_words.txt', 'r') as open_file:
+            topic_seeds = json.loads(open_file.read())
     return topic_seeds
+
+def aggregate_data():
+    """
+        Helper function that aggregates the daily data into one list of lists by
+        concatenating contents of all equivalent categories together.
+
+        Args:
+            None
+        Returns:
+            Data: a list of lists. The contents of all queries aggregated by category
+    """
+    directory = '../data/'
+    data = None
+    for file in os.listdir(directory):
+        if file.startswith('NYtimes_'):
+            if data is None:
+                data = pd.read_csv(directory).iloc[:, 1:]
+            else:
+                data_i = pd.read_csv(directory+file).iloc[:, 1:]
+                for i in range(len(data_i)):
+                    if data_i.iloc[i, 0] in list(data.iloc[:, 0]):
+                        data.iloc[i, 1] = str(data.iloc[i, 1]) + str(data_i.iloc[i, 1])
+                    else:
+                        data.append([data_i.iloc[i, 0], data_i.iloc[i, 1]])
+                data.append(data_i)
+    return data
 
 def get_nytimes_data(sections='all'):
     """
@@ -73,6 +113,7 @@ def get_section_words(data):
         Returns:
         topic_seeds: A list of lists with top topics for each of the inputted sections.
     """
+    data = pd.DataFrame(np.asarray(data))
     processor = text_processing.ArticlePreprocessor(min_df=0)
     article_dtm = processor.get_dtm(series_of_articles=data.loc[:, 1])
 
