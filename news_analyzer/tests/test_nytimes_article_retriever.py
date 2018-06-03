@@ -89,8 +89,6 @@ class TestNytimesArticleRetriever(unittest.TestCase):
             self.assertTrue(len(self.get_all_topic_words[i]) ==
                             len(set(self.get_all_topic_words[i])))
             # check first item is a category name
-            if self.get_all_topic_words[i][0] not in configs.GUIDED_LDA_TOPICS:
-                print(self.get_all_topic_words[i][0])
             self.assertTrue(self.get_all_topic_words[i][0] in
                             configs.GUIDED_LDA_TOPICS)
         print("min_length:", min_length)
