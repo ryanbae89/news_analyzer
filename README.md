@@ -1,7 +1,7 @@
 ﻿# NARA: News Articles Recommender and Analyzer
 
 [![Build Status](https://travis-ci.org/heybaebae/news_analyzer.svg?branch=master)](https://travis-ci.org/heybaebae/news_analyzer)
-[![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)  
+
 
 ## Background  
  
@@ -27,32 +27,33 @@ How does it work?
 
 ## Data
 
-#### All-the-news Kaggle dataset  
+### All-the-news Kaggle dataset  
 * The corpus comes from [All-the-news Kaggle dataset](https://www.kaggle.com/snapcrack/all-the-news):
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. The distribution of the publishers is shown below:
 
 ![publishers distribution](http://i.imgur.com/QDPtuEv.png)
 
-#### The New York Times seed words dataset
+### The New York Times seed words dataset
 * [The New York Times API](https://developer.nytimes.com):
 
 We used labelled article information from the New York Times to seed words for the guided LDA. We aggregated and analyzed the article titles, summaries and categories from a series of days to generate the list of seed words.
 
 ## Installation
 
-First clone the repo in your local directory. Then in the repo root directory, run the set up file to install the dependencies:
+1. First clone the repo in your local directory. Then in the repo root directory, run the set up file to install the dependencies:  
 
 ```
 pip install -r requirements.txt
 ```
 
-Now, run the `setup.py` file as following to download other data dependencies:
+2. Now, run the `setup.py` file as following to download other data dependencies:  
 
 ```
 python setup.py build 
 ``` 
-Currently NARA only supports Python 3.4 or newer.
+*Currently NARA only supports Python 3.4 or newer.*  
+
 
 ## Demo Example
 
