@@ -9,7 +9,7 @@
 
 Our system highlights topic insights through two different models: an unguided LDA for identifying topic recommended articles and a guided LDA with seed words from NYTimes to show interpretable topics. Our system also shows sentiment information and word cloud that summarize the query article for the user.
 
-> #todo: Add screenshot of UI    
+![UIScreenshot](doc/ui_screenshot.png?raw=true)  
   
 NARA does 3 things:
 * Recommends news articles based on topic relevance
