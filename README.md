@@ -1,7 +1,7 @@
-# NARA: News Articles Recommender and Analyzer
+﻿# NARA: News Articles Recommender and Analyzer
 
 [![Build Status](https://travis-ci.org/heybaebae/news_analyzer.svg?branch=master)](https://travis-ci.org/heybaebae/news_analyzer)
-[![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)  
 
 ## Background  
  
@@ -27,12 +27,14 @@ How does it work?
 
 ## Data
 
+#### All-the-news Kaggle dataset  
 * The corpus comes from [All-the-news Kaggle dataset](https://www.kaggle.com/snapcrack/all-the-news):
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. The distribution of the publishers is shown below:
 
 ![publishers distribution](http://i.imgur.com/QDPtuEv.png)
 
+#### The New York Times seed words dataset
 * [The New York Times API](https://developer.nytimes.com):
 
 We used labelled article information from the New York Times to seed words for the guided LDA. We aggregated and analyzed the article titles, summaries and categories from a series of days to generate the list of seed words.
@@ -56,11 +58,16 @@ Currently NARA only supports Python 3.4 or newer.
 
 Because the full news articles corpus and resulting topic models are too large to be stored in the repo, we provide a smaller corpus that is subset of the full corpus. This demo section goes over how to run Now to run the user interface to start using NARA.
 
+1. Follow the installations steps above
+
+2. Run the Dash UI
 ```
 python path_to_libraries/user_interface.py
 ```
 
-Copy the url that shows up in your command line to your browser to start the UI.
+3. Copy the url that shows up in your command line to your browser to start the UI.
+
+4. Enter any sample article from the examples folder or of your choice  
 
 ## Full Build
 
