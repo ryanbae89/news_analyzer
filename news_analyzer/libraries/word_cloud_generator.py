@@ -5,7 +5,8 @@ This module has 1 function:
     generate_wordcloud (see more details below)
 """
 import base64
-
+import matplotlib as mpl 
+mpl.use('TkAgg')
 from wordcloud import WordCloud, STOPWORDS
 STOP_WORDS = set(STOPWORDS)
 
