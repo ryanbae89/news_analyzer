@@ -1,7 +1,7 @@
 ﻿# NARA: News Articles Recommender and Analyzer
 
 [![Build Status](https://travis-ci.org/heybaebae/news_analyzer.svg?branch=master)](https://travis-ci.org/heybaebae/news_analyzer)
-
+[![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)  
 
 ## Background  
  
