@@ -4,7 +4,9 @@ This module performs unittest on handler module.
 import unittest
 import sys
 sys.path.append('../libraries')
-import handler
+
+# pylint: disable=wrong-import-position
+import handler # noqa
 
 
 class TestHandler(unittest.TestCase):

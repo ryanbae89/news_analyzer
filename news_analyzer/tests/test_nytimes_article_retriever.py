@@ -11,8 +11,9 @@ sys.path.append('news_analyzer/libraries')
 
 
 # test imports
-import configs
-import nytimes_article_retriever as nytar
+# pylint: disable=wrong-import-position
+import configs # noqa
+import nytimes_article_retriever as nytar # noqa
 
 
 class TestNytimesArticleRetriever(unittest.TestCase):

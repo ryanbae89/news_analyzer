@@ -15,8 +15,9 @@ Functions:
 import sys
 import unittest
 import numpy as np
-# test import
-sys.path.append('news_analyzer/libraries')
+
+# pylint: disable=wrong-import-position
+sys.path.append('news_analyzer/libraries') # noqa
 import article_recommender
 
 
