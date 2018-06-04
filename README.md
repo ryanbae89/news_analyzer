@@ -96,6 +96,7 @@ news_analyzer
 │   ├── FunctionalDesign.md
 │   ├── WeReadTheNews.pptx
 │   ├── mockup.png
+│   ├── ui_screenshot.png
 │   └── news-nlp-flowchart-2.png
 ├── examples
 │   ├── example_article1.txt
