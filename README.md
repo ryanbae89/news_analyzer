@@ -40,6 +40,8 @@ Now, run the `setup.py` file as following to download other data dependencies:
 python setup.py build 
 ``` 
 
+## Demo
+
 Now to run the user interface to start using NARA.
 
 ```
@@ -50,12 +52,12 @@ Copy the url that shows up in your command line to your browser to start the UI.
 
 ## Data
 
-The corpus comes from Kaggle dataset:
+* The corpus comes from Kaggle dataset:
 https://www.kaggle.com/snapcrack/all-the-news
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. 
 
-The New York Times API:
+* The New York Times API:
 https://developer.nytimes.com
 
 We used labelled article information from the New York Times to seed words for the guided LDA. We aggregated and analyzed the article titles, summaries and categories from a series of days to generate the list of seed words.
@@ -66,7 +68,68 @@ We used labelled article information from the New York Times to seed words for t
 *For more details, please see*: [ComponentDesign.md](doc/ComponentDesign.md)
 
 ## Directory Structure
-> #todo: Need content (run 'tree')
+
+news_analyzer
+├── LICENSE
+├── README.md
+├── doc
+│   ├── ComponentDesign.md
+│   ├── Final_presentation.pptx
+│   ├── FunctionalDesign.md
+│   ├── WeReadTheNews.pptx
+│   ├── mockup.png
+│   └── news-nlp-flowchart-2.png
+├── examples
+│   ├── example_article1.txt
+│   ├── example_article2.txt
+│   └── example_article3.txt
+├── news_analyzer
+│   ├── __init__.py
+│   ├── libraries
+│   │   ├── __init__.py
+│   │   ├── article_recommender.py
+│   │   ├── configs.py
+│   │   ├── handler.py
+│   │   ├── nytimes_article_retriever.py
+│   │   ├── sentiment_analyzer.py
+│   │   ├── temp_wordcloud.png
+│   │   ├── text_processing.py
+│   │   ├── topic_modeling.py
+│   │   ├── user_interface.py
+│   │   └── word_cloud_generator.py
+│   ├── resources
+│   │   ├── articles.csv
+│   │   ├── guidedlda_model.pkl
+│   │   ├── nytimes_data
+│   │   │   ├── NYtimes_data_20180507.csv
+│   │   │   ├── NYtimes_data_20180508.csv
+│   │   │   ├── NYtimes_data_20180509.csv
+│   │   │   ├── NYtimes_data_20180513.csv
+│   │   │   ├── NYtimes_data_20180515.csv
+│   │   │   ├── NYtimes_data_20180527.csv
+│   │   │   ├── NYtimes_data_20180528.csv
+│   │   │   ├── NYtimes_data_20180529.csv
+│   │   │   ├── NYtimes_data_20180603.csv
+│   │   │   └── aggregated_seed_words.txt
+│   │   ├── preprocessor.pkl
+│   │   └── unguidedlda_model.pkl
+│   ├── scripts
+│   │   └── build_resources.py
+│   └── tests
+│       ├── __init__.py
+│       ├── test_article_recommender.py
+│       ├── test_handler.py
+│       ├── test_nytimes_article_retriever.py
+│       ├── test_preprocessing.py
+│       ├── test_resources
+│       │   ├── test_dtm.pkl
+│       │   └── test_topics_raw.pkl
+│       ├── test_sentiment_analyzer.py
+│       ├── test_topic_modeling.py
+│       ├── test_user_interface.py
+│       └── test_word_cloud_generator.py
+├── requirements.txt
+└── setup.py
 
 ## Prerequistes and Setup  
 > #todo: Need content  
