@@ -27,7 +27,7 @@ How does it work?
 
 ## Data
 
-* The corpus comes from [Kaggle dataset](https://www.kaggle.com/snapcrack/all-the-news):
+* The corpus comes from [All-the-news Kaggle dataset](https://www.kaggle.com/snapcrack/all-the-news):
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. The distribution of the publishers is shown below:
 
