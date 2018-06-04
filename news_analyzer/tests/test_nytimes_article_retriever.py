@@ -22,6 +22,9 @@ class TestNytimesArticleRetriever(unittest.TestCase):
         python test_topic_modeling.py
     """
     def setUp(self):
+        self.file_location = ("news_analyzer/resources/nytimes_data/" +
+                        "NYtimes_data_20180508.csv")
+        self.data_file = pd.read_csv(self.file_location).iloc[:, 1:]
         # makes calls to API
         self.all_topics = nytar.get_nytimes_data()
         # makes calls to API
@@ -30,7 +33,9 @@ class TestNytimesArticleRetriever(unittest.TestCase):
                                                    'books'])
         self.all_topic_words = nytar.get_section_words(self.all_topics)
         self.some_topic_words = nytar.get_section_words(self.some_topics)
+        self.test_topic_words = nytar.get_section_words(self.data_file)
         self.get_all_topic_words = nytar.get_nytimes_topic_words()
+        self.get_all_topic_words_true = nytar.get_nytimes_topic_words(True)
         self.aggregated_data = nytar.aggregate_data()
 
     def test_get_nytimes_data(self):
@@ -64,8 +69,10 @@ class TestNytimesArticleRetriever(unittest.TestCase):
         # check return type
         self.assertTrue(isinstance(self.all_topic_words, list))
         self.assertTrue(isinstance(self.some_topic_words, list))
+        self.assertTrue(isinstance(self.test_topic_words, list))
 
         # check dimensions
+        self.assertTrue(len(self.test_topic_words) == 20)
         # self.assertTrue(len(self.all_topic_words) ==
         #                len(configs.GUIDED_LDA_TOPICS))
         # self.assertTrue(len(self.some_topic_words) == 3)
@@ -76,6 +83,7 @@ class TestNytimesArticleRetriever(unittest.TestCase):
         """
         # check return type
         self.assertTrue(isinstance(self.get_all_topic_words, list))
+        self.assertTrue(isinstance(self.get_all_topic_words_true, list))
         # print("all topic words")
         # print(len(self.get_all_topic_words))
         # print(len(self.all_topic_words))
@@ -92,7 +100,6 @@ class TestNytimesArticleRetriever(unittest.TestCase):
             # check first item is a category name
             self.assertTrue(self.get_all_topic_words[i][0] in
                             configs.GUIDED_LDA_TOPICS)
-        print("min_length:", min_length)
         self.assertTrue(min_length >= 10)
 
 
