@@ -23,7 +23,7 @@ class TestNytimesArticleRetriever(unittest.TestCase):
     """
     def setUp(self):
         self.file_location = ("news_analyzer/resources/nytimes_data/" +
-                        "NYtimes_data_20180508.csv")
+                              "NYtimes_data_20180508.csv")
         self.data_file = pd.read_csv(self.file_location).iloc[:, 1:]
         # makes calls to API
         self.all_topics = nytar.get_nytimes_data()

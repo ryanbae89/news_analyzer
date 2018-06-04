@@ -23,6 +23,7 @@ import handler
 app = dash.Dash()
 my_handler = handler.Handler()
 
+
 # Reusable
 def make_dash_table(data_frame):
     ''' Return a dash definition of an HTML table for a Pandas dataframe '''
