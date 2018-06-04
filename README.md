@@ -31,8 +31,7 @@ How does it work?
 
 It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. The distribution of the publishers is shown below:
 
-![Kaggle dataset publisher distribution]
-(http://i.imgur.com/QDPtuEv.png)
+![publishers distribution](http://i.imgur.com/QDPtuEv.png)
 
 * [The New York Times API](https://developer.nytimes.com):
 
