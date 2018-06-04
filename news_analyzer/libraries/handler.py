@@ -56,8 +56,8 @@ def load_pickled(filename):
     This function loads pickled files.
     """
     with open(filename, "rb") as input_file:
-        object = pickle.load(input_file)
-    return object
+        my_object = pickle.load(input_file)
+    return my_object
 
 
 class Handler():
@@ -107,18 +107,6 @@ class Handler():
                         query_unguided_topics]
         return query_topics
 
-    def get_sentiment(self, query_article):
-        """
-        Processes query article for sentiment information.
-
-        Args:
-            query_article = string, article or words being queried
-        Returns:
-            sentiment information = dict, positive, neutral and
-                                    negative sentence count.
-        """
-        return sentiment_analyzer.get_sentiment(query_article)
-
     def get_recommended_articles(self, query_article):
         """
         Processes query article to retrieve top recommended articles.
@@ -134,7 +122,21 @@ class Handler():
             doc_topic_matrix, query_vector, self.corpus)
         return recommended_articles
 
-    def get_word_cloud(self, query_article):
+    @staticmethod
+    def get_sentiment(query_article):
+        """
+        Processes query article for sentiment information.
+
+        Args:
+            query_article = string, article or words being queried
+        Returns:
+            sentiment information = dict, positive, neutral and
+                                    negative sentence count.
+        """
+        return sentiment_analyzer.get_sentiment(query_article)
+
+    @staticmethod
+    def get_word_cloud(query_article):
         """
         Processes query article to retrieve word cloud image.
 

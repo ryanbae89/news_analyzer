@@ -8,7 +8,8 @@ import numpy as np
 import pandas as pd
 
 sys.path.append('../libraries')
-import text_processing as tpp
+# pylint: disable=wrong-import-position
+import text_processing as tpp # noqa
 
 STOPWORDS = list(set(stopwords.words('english'))) + tpp.EXTRA_STOPWORDS
 
