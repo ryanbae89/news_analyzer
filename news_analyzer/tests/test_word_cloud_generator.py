@@ -5,7 +5,8 @@ import unittest
 import sys
 sys.path.append('news_analyzer/libraries')
 
-import word_cloud_generator
+# pylint: disable=wrong-import-position
+import word_cloud_generator # noqa
 
 
 # Define a class in which the tests will run

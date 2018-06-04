@@ -12,7 +12,8 @@ sys.path.append('news_analyzer/libraries')
 
 
 # test imports
-import user_interface as ui
+# pylint: disable=wrong-import-position
+import user_interface as ui # noqa
 
 
 class TestUserInterface(unittest.TestCase):
@@ -20,7 +21,6 @@ class TestUserInterface(unittest.TestCase):
 
         python test_user_interface.py
     """
-
 
     def test_make_dash_table(self):
         """ Test to check getting NYtimes data.
