@@ -1,4 +1,4 @@
-# News Articles Recommender and Analyzer
+# NARA: News Articles Recommender and Analyzer
 
 [![Build Status](https://travis-ci.org/heybaebae/news_analyzer.svg?branch=master)](https://travis-ci.org/heybaebae/news_analyzer)
 [![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)
@@ -8,7 +8,6 @@
  Conventional news recommendation systems use a small set of keywords to identify the top recommended articles to users based on keywords frequency. We built upon this framework by enabling users to find recommended articles by providing an entire news article. The recommendation process uses article topics to evaluate which articles to recommended. 
 
 Our system highlights topic insights through two different models: an unguided LDA for identifying topic recommended articles and a guided LDA with seed words from NYTimes to show interpretable topics. Our system also shows sentiment information and word cloud that summarize the query article for the user.
-
 
 > #todo: Add screenshot of UI    
   
@@ -26,6 +25,19 @@ How does it work?
 
 *For more details, please see*: [FunctionalDesign.md](doc/FunctionalDesign.md)
 
+## Data
+
+* The corpus comes from [Kaggle dataset](https://www.kaggle.com/snapcrack/all-the-news):
+
+It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. The distribution of the publishers is shown below:
+
+![Kaggle dataset publisher distribution]
+(http://i.imgur.com/QDPtuEv.png)
+
+* [The New York Times API](https://developer.nytimes.com):
+
+We used labelled article information from the New York Times to seed words for the guided LDA. We aggregated and analyzed the article titles, summaries and categories from a series of days to generate the list of seed words.
+
 ## Installation
 
 First clone the repo in your local directory. Then in the repo root directory, run the set up file to install the dependencies:
@@ -39,10 +51,11 @@ Now, run the `setup.py` file as following to download other data dependencies:
 ```
 python setup.py build 
 ``` 
+Currently NARA only supports Python 3.4 or newer.
 
-## Demo
+## Demo Example
 
-Now to run the user interface to start using NARA.
+Because the full news articles corpus and resulting topic models are too large to be stored in the repo, we provide a smaller corpus that is subset of the full corpus. This demo section goes over how to run Now to run the user interface to start using NARA.
 
 ```
 python path_to_libraries/user_interface.py
@@ -50,18 +63,15 @@ python path_to_libraries/user_interface.py
 
 Copy the url that shows up in your command line to your browser to start the UI.
 
-## Data
+## Full Build
 
-* The corpus comes from Kaggle dataset:
-https://www.kaggle.com/snapcrack/all-the-news
+Because of the large sizes of the corpus and resulting topic models, it is recommended that you clone the repo locally and run the build scrip we provide to download the data from Kaggle and build the topic models. To do this, simply run the `build_resources.py` script as follows:
 
-It consists of over 140,000 articles from 15 US national publishers between 2015 - 2017. 
+```
+python path_to_scripts/build_resources.py
+```
 
-* The New York Times API:
-https://developer.nytimes.com
-
-We used labelled article information from the New York Times to seed words for the guided LDA. We aggregated and analyzed the article titles, summaries and categories from a series of days to generate the list of seed words.
-
+The build script will automatically download the csv files using Kaggle's API, and build the topic models. Once complete, you can simply run the UI as shown above in the demo example.
 
 ## Component Design  
 ![ComponentDesignFlowChart](doc/news-nlp-flowchart-2.png?raw=true)  
@@ -133,10 +143,6 @@ news_analyzer
 └── setup.py
 ```
 
-## Prerequistes and Setup  
-> #todo: Need content  
-
-
 ## Team:WeReadTheNews
 MS Data Science, University of Washington  
 DATA 515 Software Design for Data Science (Spring 2018)  
@@ -148,4 +154,6 @@ Team members:
  * [Mohammed Helal](https://www.linkedin.com/in/mohammed-helal-78969566)   
  * [Paul Wright](https://www.linkedin.com/in/paulcharleswright)     
 
- 
+## References:
+
+* [Guided LDA Module](https://medium.freecodecamp.org/how-we-changed-unsupervised-lda-to-semi-supervised-guidedlda-e36a95f3a164) 
