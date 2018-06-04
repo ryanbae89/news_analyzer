@@ -69,6 +69,7 @@ We used labelled article information from the New York Times to seed words for t
 
 ## Directory Structure
 
+```
 news_analyzer
 ├── LICENSE
 ├── README.md
@@ -130,6 +131,7 @@ news_analyzer
 │       └── test_word_cloud_generator.py
 ├── requirements.txt
 └── setup.py
+```
 
 ## Prerequistes and Setup  
 > #todo: Need content  
