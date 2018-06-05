@@ -108,7 +108,7 @@ class TopicModeler(object):
             Args:
                 dtm = numpy array or pandas dataframe, document-term-matrix
                 guided = boolean, guided LDA or regular LDA
-                seed_topics = list, list of words belonging to a topic
+                seed_topics = dict, (key: word ID, value: topic ID)
                 seed_confidence = float, confidence of seed_topics
                 n_topics = int, number of topics to model
                 n_iter = int, number of iterations
@@ -135,7 +135,7 @@ class TopicModeler(object):
                 raise ValueError("Please enter a dictionary for seed_topics.")
             elif not isinstance(seed_confidence, float):
                 raise ValueError("Please enter a float for seed_confidence.")
-            elif self.n_topics < len(seed_topics):
+            elif self.n_topics < max(seed_topics.values()) + 1:
                 raise ValueError(
                     "n_topics must be greater than number of seed topics!")
             print("Guided LDA")
