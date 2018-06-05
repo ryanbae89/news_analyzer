@@ -8,7 +8,6 @@ Script for building resources:
 """
 import os
 import sys
-import json
 import pickle
 import argparse
 import requests
@@ -17,18 +16,17 @@ import pandas as pd
 import numpy as np
 import time
 
-# sys.path.append("../libraries")
+sys.path.append("../libraries")
 sys.path.append("news_analyzer/libraries")
-import configs
-import text_processing
-import topic_modeling
-import nytimes_article_retriever
+import configs # noqa
+import text_processing # noqa
+import topic_modeling # noqa
+import nytimes_article_retriever # noqa
 
-## Module Constants
-# Preprocessor Constants
+# Module Constants
 KAGGLE_COMP = "all-the-news"
-CSV_NAMES = ["articles1.csv"]
-# CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
+# Change to include fewer csv files if desired
+CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
 RESOURCE_PATH = "../" + configs.RESOURCE_FOLDER
 FPATHS = [RESOURCE_PATH + "/" + name for name in CSV_NAMES]
 CONTENT_COLUMN = "content"
@@ -40,13 +38,15 @@ N_ITERATIONS = 100
 RANDOM_STATE = 0
 REFRESH = 20
 
+
 def get_files():
     """ Function for downloading Kaggle files (see CSV_NAMES in module header),
         removing short articles (potential ads), and combining into one
         large table.
     """
     os.system("kaggle datasets download -d \
-                snapcrack/all-the-news --force -p '{}'".format(configs.RESOURCE_PATH))
+                snapcrack/all-the-news --force -p '{}'". \
+                    format(configs.RESOURCE_PATH))
 
     list_of_tables = []
     for fpath in FPATHS:
@@ -54,10 +54,12 @@ def get_files():
         list_of_tables.append(pd.read_csv(fpath, encoding='utf8'))
 
     full_table = pd.concat(list_of_tables)
-    article_lengths = full_table[CONTENT_COLUMN].apply(lambda x: len(x.split()))
+    article_lengths = \
+        full_table[CONTENT_COLUMN].apply(lambda x: len(x.split()))
     full_table = full_table[article_lengths > MIN_WORDS_IN_ARTICLE]
     full_table.to_csv(configs.CORPUS_PATH, index=False)
     return full_table
+
 
 if __name__ == "__main__":
     """ Main script used to download Kaggle files, preprocessing data,
@@ -117,14 +119,14 @@ if __name__ == "__main__":
     guidedlda_model = guidedlda_model.fit(dtm,
                                           seed_topics,
                                           GUIDED_TOPICS_CONFIDENCE)
-
     ## Fit unguided LDA model
     n_unguided_topics = int(len(dtm)/100)
     print('fitting unguided LDA model using {} topics...'.format(
         n_unguided_topics))
     unguidedlda_model = topic_modeling.TopicModeler(n_unguided_topics,
                                                     N_ITERATIONS,
-                                                    RANDOM_STATE, REFRESH)
+                                                    RANDOM_STATE,
+                                                    REFRESH)
     unguidedlda_model = unguidedlda_model.fit(dtm)
     e_time = time.time()
 

@@ -5,12 +5,15 @@ This module conducts unittest on the topic_modeling.py module.
 import sys
 import unittest
 import pickle
-import guidedlda
 import numpy as np
 import pandas as pd
+import guidedlda
+
 # test import
 sys.path.append('news_analyzer/libraries')
-import topic_modeling
+
+# pylint: disable=wrong-import-position
+import topic_modeling # noqa
 
 
 class TestTopicModeling(unittest.TestCase):

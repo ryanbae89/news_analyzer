@@ -1,11 +1,11 @@
 ﻿# NARA: News Articles Recommender and Analyzer
 
 [![Build Status](https://travis-ci.org/heybaebae/news_analyzer.svg?branch=master)](https://travis-ci.org/heybaebae/news_analyzer)
-[![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.svg?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)  
+[![Coverage Status](https://coveralls.io/repos/github/heybaebae/news_analyzer/badge.png?branch=master)](https://coveralls.io/github/heybaebae/news_analyzer?branch=master)
 
 ## Background  
- 
- Conventional news recommendation systems use a small set of keywords to identify the top recommended articles to users based on keywords frequency. We built upon this framework by enabling users to find recommended articles by providing an entire news article. The recommendation process uses article topics to evaluate which articles to recommended. 
+
+Conventional news recommendation systems use a small set of keywords to identify the top recommended articles to users based on keywords frequency. We built upon this framework by enabling users to find recommended articles by providing an entire news article. The recommendation process uses article topics to evaluate which articles to recommended. 
 
 Our system highlights topic insights through two different models: an unguided LDA for identifying topic recommended articles and a guided LDA with seed words from NYTimes to show interpretable topics. Our system also shows sentiment information and word cloud that summarize the query article for the user.
 
@@ -70,15 +70,22 @@ python path_to_libraries/user_interface.py
 
 4. Enter any sample article from the examples folder or of your choice  
 
+Refer to the `NARA_UserGuide.pdf` in the examples directory for more detailed information. 
+
 ## Full Build
 
-Because of the large sizes of the corpus and resulting topic models, it is recommended that you clone the repo locally and run the build scrip we provide to download the data from Kaggle and build the topic models. To do this, simply run the `build_resources.py` script as follows:
+The repo includes files for a subset of the Kaggle data. To download and build the topic models based on the full dataset you'll need to register for a Kaggle account and follow instructions in this link under the **API Credentials** section: https://github.com/Kaggle/kaggle-api.
+Once Kaggle credentials are set up, simply run the `build_resources.py` script as follows:
 
 ```
-python path_to_scripts/build_resources.py
+python <path to scripts folder>/build_resources.py --download
 ```
 
 The build script will automatically download the csv files using Kaggle's API, and build the topic models. Once complete, you can simply run the UI as shown above in the demo example.
+
+*The full build using the entire corpus of 140,000 articles is quite computationally expensive. It is recommended that the build is performed on a cloud machine with at least 48GB of memory. The full build took about ~24 hours on compute optimized AWS machine with 60GB memory.*
+
+If the data has already been downloaded and you would like rebuild the topic model with different settings, you can run the `build_resources.py` script without the --download flag.
 
 ## Component Design  
 ![ComponentDesignFlowChart](doc/news-nlp-flowchart-2.png?raw=true)  

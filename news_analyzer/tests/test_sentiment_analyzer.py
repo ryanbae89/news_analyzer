@@ -5,7 +5,8 @@ import unittest
 import sys
 sys.path.append('news_analyzer/libraries')
 
-import sentiment_analyzer
+# pylint: disable=wrong-import-position
+import sentiment_analyzer # noqa
 
 
 # Define a class in which the tests will run

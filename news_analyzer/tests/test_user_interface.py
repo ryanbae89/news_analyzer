@@ -12,15 +12,17 @@ sys.path.append('news_analyzer/libraries')
 
 
 # test imports
-import user_interface as ui
+# pylint: disable=wrong-import-position
+import user_interface as ui # noqa
 
 
 class TestUserInterface(unittest.TestCase):
-    """ Usage: unit-test.
+    """ Usage: unit-test. Mostly smoke tests as the handler class does most
+        of the validation and the interface class converts to dash compatible
+        code.
 
         python test_user_interface.py
     """
-
 
     def test_make_dash_table(self):
         """ Test to check getting NYtimes data.
@@ -40,21 +42,21 @@ class TestUserInterface(unittest.TestCase):
         output = ui.update_recommended_articles(4, "test query article")
         self.assertIsNotNone(output)
 
-    def update_sentiment_information(self):
+    def test_sentiment_information(self):
         """
         test the update_sentiment_information function
         """
         output = ui.update_sentiment_information(4, "test query article")
         self.assertIsNotNone(output)
 
-    def update_top_topics(self):
+    def test_update_top_topics(self):
         """
         test the update_top_topics function
         """
         output = ui.update_top_topics(4, "test query article")
         self.assertIsNotNone(output)
 
-    def update_word_cloud_image(self):
+    def test_update_word_cloud_image(self):
         """
         test the update_word_cloud_image function
         """
