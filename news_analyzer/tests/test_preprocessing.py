@@ -13,6 +13,7 @@ import text_processing as tpp # noqa
 
 STOPWORDS = list(set(stopwords.words('english'))) + tpp.EXTRA_STOPWORDS
 
+
 class ArticleCleaningTest(unittest.TestCase):
     """ These tests will test the functions in the module
         clean_article and transform article.
@@ -56,7 +57,6 @@ class ArticleCleaningTest(unittest.TestCase):
                 # Test for no stopwords
                 self.assertFalse(has_stopwords(cleaned_list))
 
-
     def test_transform_article(self):
         """ Input for tpp.transform_article function is a single article.
 
@@ -91,9 +91,10 @@ class ArticlePreprocessorTest(unittest.TestCase):
         article_6 = ""
         article_7 = "!@#$%^&"
         self.articles_should_pass = [article_1, article_2, article_3]
-        self.articles_should_fail = [article_4, article_5, article_6, article_7]
+        self.articles_should_fail = [article_4, article_5,
+            article_6, article_7]
         self.test_articles = self.articles_should_pass + \
-                                self.articles_should_fail
+            self.articles_should_fail
 
     def test_fit_on_good_articles(self):
         """ Tests whether fit function returns any errors using
@@ -111,7 +112,7 @@ class ArticlePreprocessorTest(unittest.TestCase):
         # Test if fit function works on whole corpus (list of articles)
         # Only a subset of the corpus needs to pass for fit to work.
         try:
-            self.processor.fit(self.articles_should_pass + \
+            self.processor.fit(self.articles_should_pass +
                         self.articles_should_fail)
         except Exception:
             self.fail('Error thrown when corpus fit in \
@@ -125,10 +126,10 @@ class ArticlePreprocessorTest(unittest.TestCase):
             with self.subTest(test_article=test_article):
                 try:
                     self.processor.fit(test_article)
-                    self.fail("Preprocessor should have returned a ValueError.")
+                    self.fail("Preprocessor should have \
+                        returned a ValueError.")
                 except ValueError:
                     pass
-
 
     def test_transform(self):
         """ Tests to ensure (1) transforms work on multiple
@@ -159,10 +160,10 @@ class ArticlePreprocessorTest(unittest.TestCase):
         # Test against query articles
         query_dtm_1 = self.processor.transform("text outside of test cases")
         # Test if columns are the same
-        #import pdb; pdb.set_trace()
         self.assertTrue(dtm.shape[1] == query_dtm_1.shape[1])
         self.assertTrue(query_dtm_1.columns.isin(cols).all())
-        query_dtm_2 = self.processor.transform("text inside of test cases like 'newline'")
+        query_dtm_2 = self.processor.transform("text inside of test cases \
+            like 'newline'")
         self.assertTrue(dtm.shape[1] == query_dtm_2.shape[1])
         self.assertTrue(query_dtm_2.columns.isin(cols).all())
 
@@ -181,8 +182,6 @@ class ArticlePreprocessorTest(unittest.TestCase):
         self.assertTrue(cols.isin(vocab).all())
 
 
-
-
 def has_stopwords(string):
     """Internal function for checking if string is lowercase.
     Args:
@@ -196,6 +195,7 @@ def has_stopwords(string):
     else:
         s_list = pd.Series(string)
     return s_list.isin(STOPWORDS).any()
+
 
 def is_lowercase(string):
     """Internal function for checking if string is lowercase.

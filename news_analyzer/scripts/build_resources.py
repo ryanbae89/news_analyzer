@@ -8,8 +8,6 @@ Script for building resources:
 """
 import os
 import sys
-import requests
-import json
 import pickle
 import argparse
 
@@ -40,7 +38,8 @@ def get_files():
         large table.
     """
     os.system("kaggle datasets download -d \
-                snapcrack/all-the-news --force -p '{}'".format(configs.RESOURCE_PATH))
+                snapcrack/all-the-news --force -p '{}'". \
+                    format(configs.RESOURCE_PATH))
 
     list_of_tables = []
     for fpath in FPATHS:
