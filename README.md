@@ -75,10 +75,10 @@ Refer to the `NARA_UserGuide.pdf` in the examples directory for more detailed in
 ## Full Build
 
 The repo includes files for a subset of the Kaggle data. To download and build the topic models based on the full dataset you'll need to register for a Kaggle account and follow instructions in this link under the **API Credentials** section: https://github.com/Kaggle/kaggle-api.
-Once Kaggle credentials are set up, simply run the `build_resources.py` script as follows:
+Once Kaggle credentials are set up, simply run the `build_resources.py` script as follows *from the root directory*:
 
 ```
-python <path to scripts folder>/build_resources.py --download
+python <path to root folder>/news_analyzer/scripts/build_resources.py --download
 ```
 
 The build script will automatically download the csv files using Kaggle's API, and build the topic models. Once complete, you can simply run the UI as shown above in the demo example.
