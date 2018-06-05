@@ -17,7 +17,9 @@ import user_interface as ui # noqa
 
 
 class TestUserInterface(unittest.TestCase):
-    """ Usage: unit-test.
+    """ Usage: unit-test. Mostly smoke tests as the handler class does most
+        of the validation and the interface class converts to dash compatible
+        code.
 
         python test_user_interface.py
     """
@@ -40,7 +42,7 @@ class TestUserInterface(unittest.TestCase):
         output = ui.update_recommended_articles(4, "test query article")
         self.assertIsNotNone(output)
 
-    def test_update_sentiment_information(self):
+    def test_sentiment_information(self):
         """
         test the update_sentiment_information function
         """
