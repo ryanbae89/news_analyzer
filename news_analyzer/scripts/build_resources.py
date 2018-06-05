@@ -10,10 +10,8 @@ import os
 import sys
 import pickle
 import argparse
-import requests
 
 import pandas as pd
-import numpy as np
 import time
 
 sys.path.append("../libraries")
@@ -45,8 +43,8 @@ def get_files():
         large table.
     """
     os.system("kaggle datasets download -d \
-                snapcrack/all-the-news --force -p '{}'". \
-                    format(configs.RESOURCE_PATH))
+                snapcrack/all-the-news --force -p '{}'".
+              format(configs.RESOURCE_PATH))
 
     list_of_tables = []
     for fpath in FPATHS:
@@ -75,7 +73,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     download_files = args.download_files
 
-    ## If corpus csv does not exist download and build.
+    # If corpus csv does not exist download and build.
     print('checking if dataset exists...')
     if not os.path.isfile(configs.CORPUS_PATH) or download_files:
         print('dataset not found, downloading from Kaggle...')
@@ -84,7 +82,7 @@ if __name__ == "__main__":
         print('dataset found!')
         full_table = pd.read_csv(configs.CORPUS_PATH)
 
-    ## Fit preprocessor
+    # Fit preprocessor
     print('fitting preprocessor...')
     s_time = time.time()
     processor = text_processing.ArticlePreprocessor()
@@ -98,7 +96,7 @@ if __name__ == "__main__":
     dtm = processor.transform(full_table[CONTENT_COLUMN])
     vocab, word2id = topic_modeling.get_vocab(dtm)
 
-    ## Get nyt seed topics
+    # Get nyt seed topics
     print('accessing NYT API...')
     topics_raw = nytimes_article_retriever.get_nytimes_topic_words()
     topics_clean = topic_modeling.clean_topics(topics_raw,
@@ -107,7 +105,7 @@ if __name__ == "__main__":
     seed_topics = topic_modeling.get_seed_topics(topics_clean,
                                                  word2id)
 
-    ## Fit guided LDA model
+    # Fit guided LDA model
     s_time = time.time()
     n_guided_topics = len(topics_clean)
     print('fitting guided LDA model with {} topics...'.format(
@@ -119,7 +117,7 @@ if __name__ == "__main__":
     guidedlda_model = guidedlda_model.fit(dtm,
                                           seed_topics,
                                           GUIDED_TOPICS_CONFIDENCE)
-    ## Fit unguided LDA model
+    # Fit unguided LDA model
     n_unguided_topics = int(len(dtm)/100)
     print('fitting unguided LDA model using {} topics...'.format(
         n_unguided_topics))
@@ -130,7 +128,7 @@ if __name__ == "__main__":
     unguidedlda_model = unguidedlda_model.fit(dtm)
     e_time = time.time()
 
-    ## Save results
+    # Save results
     print('model building complete. total training time: {}s'.format(
         round(e_time - s_time, 3)))
     print('saving pkl files...')
