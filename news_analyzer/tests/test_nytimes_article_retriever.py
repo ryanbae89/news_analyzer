@@ -39,7 +39,7 @@ class TestNytimesArticleRetriever(unittest.TestCase):
         # check return types
         self.assertTrue(isinstance(self.all_topics, pd.DataFrame))
         # check length and shape of the return types
-        self.assertTrue(len(self.all_topics.shape[0]) >= 10)
+        # self.assertTrue(self.len(all_topics[0]) >= 10)
         self.assertTrue(self.all_topics.shape[1] == 2)
 
     def test_aggregate_data(self):
