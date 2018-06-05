@@ -71,6 +71,8 @@ python path_to_libraries/user_interface.py
 
 4. Enter any sample article from the examples folder or of your choice  
 
+Refer to the `NARA_UserGuide.pdf` in the examples directory for more detailed information. 
+
 ## Full Build
 
 Because of the large sizes of the corpus and resulting topic models, it is recommended that you clone the repo locally and run the build scrip we provide to download the data from Kaggle and build the topic models. To do this, simply run the `build_resources.py` script as follows:
@@ -80,6 +82,8 @@ python path_to_scripts/build_resources.py
 ```
 
 The build script will automatically download the csv files using Kaggle's API, and build the topic models. Once complete, you can simply run the UI as shown above in the demo example.
+
+*The full build using the entire corpus of 140,000 articles is quite computationally expensive. It is recommended that the build is performed on a cloud machine with at least 48GB of memory. The full build took about ~24 hours on compute optimized AWS machine with 60GB memory.*
 
 ## Component Design  
 ![ComponentDesignFlowChart](doc/news-nlp-flowchart-2.png?raw=true)  

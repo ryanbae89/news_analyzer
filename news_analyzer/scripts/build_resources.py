@@ -23,8 +23,8 @@ import topic_modeling # noqa
 
 # Module Constants
 KAGGLE_COMP = "all-the-news"
+# Change to include fewer csv files if desired
 CSV_NAMES = ["articles1.csv", "articles2.csv", "articles3.csv"]
-# CSV_NAMES = ["articles.csv"]
 RESOURCE_PATH = "../" + configs.RESOURCE_FOLDER
 FPATHS = [RESOURCE_PATH + "/" + name for name in CSV_NAMES]
 CONTENT_COLUMN = "content"
