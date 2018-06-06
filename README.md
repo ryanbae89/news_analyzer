@@ -106,6 +106,7 @@ news_analyzer
 │   ├── ui_screenshot.png
 │   └── news-nlp-flowchart-2.png
 ├── examples
+│   ├── NARA_UserGuide.pdf
 │   ├── example_article1.txt
 │   ├── example_article2.txt
 │   └── example_article3.txt
