@@ -15,6 +15,7 @@ sys.path.append('news_analyzer/libraries')
 import configs # noqa
 import nytimes_article_retriever as nytar # noqa
 
+MIN_CATS_TO_TEST = 10
 
 class TestNytimesArticleRetriever(unittest.TestCase):
     """ Usage: unit-test.
@@ -39,7 +40,6 @@ class TestNytimesArticleRetriever(unittest.TestCase):
         # check return types
         self.assertTrue(isinstance(self.all_topics, pd.DataFrame))
         # check length and shape of the return types
-        # self.assertTrue(self.len(all_topics[0]) >= 10)
         self.assertTrue(self.all_topics.shape[1] == 2)
 
     def test_aggregate_data(self):
@@ -48,7 +48,7 @@ class TestNytimesArticleRetriever(unittest.TestCase):
         # check return types
         self.assertTrue(isinstance(self.aggregated_data, pd.DataFrame))
         # check length and shape of the return types
-        self.assertTrue(len(self.aggregated_data) >= 10)
+        self.assertTrue(len(self.aggregated_data) >= MIN_CATS_TO_TEST)
 
     def test_get_section_words(self):
         """ Test to check getting NYTimes section words.
@@ -68,11 +68,11 @@ class TestNytimesArticleRetriever(unittest.TestCase):
         self.assertTrue(isinstance(self.get_all_topic_words, list))
         self.assertTrue(isinstance(self.get_all_topic_words_true, list))
         # Check at least 10 topics
-        self.assertTrue(len(self.get_all_topic_words) >= 10)
-        self.assertTrue(len(self.get_all_topic_words_true) >= 10)
+        self.assertTrue(len(self.get_all_topic_words) >= MIN_CATS_TO_TEST)
+        self.assertTrue(len(self.get_all_topic_words_true) >= MIN_CATS_TO_TEST)
 
         # check each category has at least 10 words
-        min_length = 10
+        min_length = MIN_CATS_TO_TEST
         for i in range(len(self.get_all_topic_words)):
             min_length = min(min_length, len(self.get_all_topic_words[i]))
             # check each value is unique
@@ -81,7 +81,7 @@ class TestNytimesArticleRetriever(unittest.TestCase):
             # check first item is a category name
             self.assertTrue(self.get_all_topic_words[i][0] in
                             configs.GUIDED_LDA_TOPICS)
-        self.assertTrue(min_length >= 10)
+        self.assertTrue(min_length >= MIN_CATS_TO_TEST)
 
 
 if __name__ == '__main__':

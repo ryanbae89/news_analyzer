@@ -22,6 +22,10 @@ import numpy as np
 import configs
 import text_processing
 
+MIN_OCCURANCES = 5
+MIN_PERCENT = .4
+NUM_WDS_PER_CAT = 15
+
 
 def get_nytimes_topic_words(get_new_data=False):
     """
@@ -148,13 +152,13 @@ def get_section_words(data):
     dtm_normalized = article_dtm**2 / np.sum(article_dtm, axis=0)
 
     for i in range(len(dtm_normalized)):
-        min_apps = (dtm_normalized.loc[i, :] >= 5)
+        min_apps = (dtm_normalized.loc[i, :] >= MIN_OCCURANCES)
         min_probability = ((dtm_normalized.loc[i, :] /
-                            np.sum(dtm_normalized, axis=0)) > .4)
+                            np.sum(dtm_normalized, axis=0)) > MIN_PERCENT)
         words = dtm_normalized.loc[i, min_apps & min_probability]
         words = words.sort_values(ascending=False)
         category_name = list([data.loc[i, 0]])
-        top_words = list(words.reset_index().iloc[:, 0])[0:15]
+        top_words = list(words.reset_index().iloc[:, 0])[0:NUM_WDS_PER_CAT]
         if category_name[0] in top_words:
             top_words.remove(category_name[0])
         topic_seeds.append((category_name + top_words))

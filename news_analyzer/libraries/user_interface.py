@@ -40,8 +40,7 @@ def make_dash_table(data_frame):
 app.layout = html.Div([
     html.H2(["News Articles Recommender and Analyzer"],
             className="padded"),
-    dcc.Textarea(#value="trump White House government",
-                 value = "Enter text / article here...",
+    dcc.Textarea(value="Enter text / article here...",
                  style={'width': '100%'},
                  id='input-1-state'),
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
