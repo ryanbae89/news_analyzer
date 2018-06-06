@@ -63,13 +63,19 @@ class TestTopicModeling(unittest.TestCase):
         """
         # test for non-integer inputs
         with self.assertRaises(Exception) as context:
-            topic_modeling.TopicModeler(1.0, 0, 0)
+            n_topics = 1.0
+            n_iter = 0
+            random_state = 0
+            topic_modeling.TopicModeler(n_topics, n_iter, random_state)
         self.assertTrue(
             'Inputs to TopicModeler must be non-negative integers!'
             in str(context.exception))
         # test for integer inputs less than 0
         with self.assertRaises(Exception) as context:
-            topic_modeling.TopicModeler(1, -1, 0)
+            n_topics = 1
+            n_iter = -1
+            random_state = 0
+            topic_modeling.TopicModeler(n_topics, n_iter, random_state)
         self.assertTrue(
             'Inputs to TopicModeler must be non-negative integers!'
             in str(context.exception))
@@ -82,36 +88,60 @@ class TestTopicModeling(unittest.TestCase):
             'Please input a valid pandas dataframe or numpy array for dtm!'
             in str(context.exception))
         # check return type (unguided case)
+        n_topics = 10
+        n_iter = 100
+        random_state = 0
+        refresh = 20
         test_modeler = topic_modeling.TopicModeler(
-            n_topics=10, n_iter=100, random_state=0, refresh=20)
+            n_topics=n_topics,
+            n_iter=n_iter,
+            random_state=random_state,
+            refresh=refresh)
         test_model = test_modeler.fit(self.test_dtm)
         self.assertTrue(isinstance(test_model, guidedlda.guidedlda.GuidedLDA))
         # non-valid inputs (guided case)
+        n_topics = 20
+        n_iter = 100
+        random_state = 0
+        refresh = 20
         test_modeler = topic_modeling.TopicModeler(
-            n_topics=20, n_iter=100, random_state=0, refresh=20)
+            n_topics=n_topics,
+            n_iter=n_iter,
+            random_state=random_state,
+            refresh=refresh)
         with self.assertRaises(Exception) as context:
             test_model = test_modeler.fit(
                 dtm=self.test_dtm, seed_topics=[], seed_confidence=0.5)
         self.assertTrue('Please enter a dictionary for seed_topics.'
                         in str(context.exception))
         with self.assertRaises(Exception) as context:
+            seed_confidence = 1
             test_model = test_modeler.fit(
                 dtm=self.test_dtm,
                 seed_topics=self.seed_topics,
-                seed_confidence=1)
+                seed_confidence=seed_confidence)
         self.assertTrue('Please enter a float for seed_confidence.'
                         in str(context.exception))
+        n_topics = 10
+        n_iter = 100
+        random_state = 0
+        refresh = 20
+        seed_confidence = 0.5
         test_modeler = topic_modeling.TopicModeler(
             n_topics=10, n_iter=100, random_state=0, refresh=20)
         with self.assertRaises(Exception) as context:
             test_model = test_modeler.fit(
                 dtm=self.test_dtm,
                 seed_topics=self.seed_topics,
-                seed_confidence=0.5)
+                seed_confidence=seed_confidence)
         self.assertTrue(
             'n_topics must be greater than number of seed topics!'
             in str(context.exception))
         # check return type (guided case)
+        n_iter = 100
+        random_state = 0
+        refresh = 20
+        seed_confidence = 0.5
         test_modeler = topic_modeling.TopicModeler(
             n_topics=len(self.seed_topics),
             n_iter=100,
@@ -120,21 +150,35 @@ class TestTopicModeling(unittest.TestCase):
         test_model = test_modeler.fit(
             dtm=self.test_dtm,
             seed_topics=self.seed_topics,
-            seed_confidence=0.5)
+            seed_confidence=seed_confidence)
         self.assertTrue(isinstance(test_model, guidedlda.guidedlda.GuidedLDA))
 
     def test_topic_modeler_gridsearch(self):
         """ Tests for the TopicModelerGridSearch class.
         """
         # check n_topics_list input
+        n_topics_list = '2'
+        n_iter = 100
+        random_state = 0
+        refresh = 20
         with self.assertRaises(Exception) as context:
             test_gridsearch = topic_modeling.TopicModelerGridSearch(
-                '2', 100, 0, 20)
+                n_topics_list,
+                n_iter,
+                random_state,
+                refresh)
         self.assertTrue('You must enter a valid list of n_topics.'
                         in str(context.exception))
         # check return type
+        n_topics_list = [5, 10]
+        n_iter = 60
+        random_state = 0
+        refresh = 20
         test_gridsearch = topic_modeling.TopicModelerGridSearch(
-            n_topics_list=[5, 10], n_iter=60, random_state=0, refresh=20)
+            n_topics_list=n_topics_list,
+            n_iter=n_iter,
+            random_state=random_state,
+            refresh=refresh)
         test_gridsearch.gridsearch(self.test_dtm)
         self.assertTrue(isinstance(
             test_gridsearch.model, guidedlda.guidedlda.GuidedLDA))

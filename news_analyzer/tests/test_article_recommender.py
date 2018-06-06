@@ -23,6 +23,8 @@ sys.path.append('news_analyzer/libraries') # noqa
 import configs
 import article_recommender
 
+# Set number of articles to return index for as in knn_prediction
+NUM_ARTICLES = 5
 
 class TestArticleRecommender(unittest.TestCase):
     """A Class of functions to perform unittest on article_recommender"""
@@ -44,7 +46,7 @@ class TestArticleRecommender(unittest.TestCase):
         """
         # Pass in matrix of all zeros for doc_topic_matrix
         # Check knn_prediction returns 5 nearest relevance topics
-        self.assertTrue(self.knn_dimension[1].shape[1] == 5)
+        self.assertTrue(self.knn_dimension[1].shape[1] == NUM_ARTICLES)
 
     def test_knn_prediction(self):
         """This function checks whether knn_prediction returns correct nearest indexes
